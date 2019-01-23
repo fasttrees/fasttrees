@@ -1,2 +1,2 @@
 # fasttrees
-A fast and frugal tree classifier for sklearn
+A fast and frugal tree classifier in Python for sklearn
