@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='fasttrees',
-    version='1.1.0',
+    version='1.1.1',
     packages=['fasttrees'],
     url='https://github.com/dominiczy/fasttrees',
     license='MIT License',
