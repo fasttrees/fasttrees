@@ -68,7 +68,6 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
 
         # Get optimal classification threshold for each feature
         for i, col in enumerate(X):
-            metric_max = 0
             j = 0
 
             if X[col].dtype.name == 'category':
@@ -83,10 +82,11 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
                         predictions = X[col].isin(subset)
                         metric = self._score(y, predictions)
 
-                        # save metric, direction and threshold if they are the best so far
+                        # save metric, direction and threshold
                         threshold_df.loc[(i, j), 'direction'] = 'in'
                         threshold_df.loc[(i, j), 'threshold'] = subset
                         threshold_df.loc[(i, j), self.scorer.__name__] = metric
+                        j += 1
 
                 threshold_df.loc[i, 'type'] = 'categorical'
             else:
@@ -111,7 +111,7 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         threshold_df[self.scorer.__name__] = threshold_df[self.scorer.__name__].astype(float)
 
         # sort features by their score
-        self.all_thresholds = threshold_df  # .sort_values(by=['cue_nr' , self.scorer.__name__], ascending=False)#.reset_index(drop=True)
+        self.all_thresholds = threshold_df
 
     def _get_best_thresholds(self):
         """Get thresholds and directions that maximimize scorer for each feature.
@@ -231,8 +231,6 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
                     (tree, index), ['feature', 'direction', 'threshold', 'type', self.scorer.__name__]] = feature_row
 
                 # exit 0.5 is stop, exit 1 means stop on true, exit 0 means stop on false
-                global testvar
-                testvar = tree_df
                 tree_df.loc[(tree, index), 'exit'] = np.binary_repr(tree, width=self.max_levels)[-1 - index]
 
             tree_df['exit'] = tree_df['exit'].astype(float)
