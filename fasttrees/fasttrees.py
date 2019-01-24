@@ -60,7 +60,7 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
             self.thresholds: Dataframe with row for every feature, with threshold, direction
             and scorer, sorted by scorer
         """
-        threshold_df = pd.DataFrame(columns=['feature', 'type', 'threshold', 'direction', self.scorer.__name__])
+        threshold_df = pd.DataFrame(columns=['feature', 'direction', 'threshold', 'type', self.scorer.__name__])
 
         # Get optimal classification threshold for each feature
         for i, col in enumerate(X):
@@ -200,11 +200,11 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         midx = pd.MultiIndex(levels=[[], []],
                              labels=[[], []],
                              names=['tree', 'idx'])
-        tree_df = pd.DataFrame(columns=['feature', 'type', 'threshold', 'direction', self.scorer.__name__], index=midx)
+        tree_df = pd.DataFrame(columns=['feature', 'direction', 'threshold', 'type', self.scorer.__name__], index=midx)
         for tree in range(2 ** (self.max_levels - 1)):
             for index, feature_row in relevant_features.iterrows():
                 tree_df.loc[
-                    (tree, index), ['feature', 'type', 'threshold', 'direction', self.scorer.__name__]] = feature_row
+                    (tree, index), ['feature', 'direction', 'threshold', 'type', self.scorer.__name__]] = feature_row
 
                 # exit 0.5 is stop, exit 1 means stop on true, exit 0 means stop on false
                 tree_df.loc[(tree, index), 'exit'] = np.binary_repr(tree, width=self.max_levels)[-1 - index]
@@ -231,9 +231,8 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
             Dataframe of tree
         """
         if idx is None:
-            return self.all_trees.loc[self.all_trees[self.scorer.__name__].idxmax()[0]]
-        else:
-            return self.all_trees.loc[idx]
+            idx = self.all_trees[self.scorer.__name__].idxmax()[0]
+        return self.all_trees.loc[idx]
 
     def fit(self, X, y):
         """Fits the classifier to the data.
