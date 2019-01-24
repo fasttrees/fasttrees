@@ -8,5 +8,10 @@ setup(
     license='MIT License',
     author='dominiczijlstra',
     author_email='dominiczijlstra@gmail.com',
-    description='A fast and frugal tree classifier for sklearn'
+    description='A fast and frugal tree classifier for sklearn',
+    install_requires=[
+                'numpy',
+                'pandas',
+                'sklearn'
+          ]
 )
