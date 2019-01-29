@@ -37,6 +37,8 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
 
         self.stopping_param = float(stopping_param)
 
+        self.max_categories = 4
+
     def _score(self, y, predictions):
         """Scores predictions against y.
 
@@ -77,15 +79,16 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
                 threshold_df['threshold'] = threshold_df['threshold'].astype(object)
 
                 # try all possible subsets of categories
-                for l in range(1, len(categories)):
+
+                for l in range(1, min(len(categories), self.max_categories + 1)):
                     for subset in itertools.combinations(categories, l):
                         predictions = X[col].isin(subset)
                         metric = self._score(y, predictions)
 
                         # save metric, direction and threshold
-                        threshold_df.loc[(i, j), 'direction'] = 'in'
-                        threshold_df.loc[(i, j), 'threshold'] = subset
-                        threshold_df.loc[(i, j), self.scorer.__name__] = metric
+                        threshold_df.at[(i, j), 'direction'] = 'in'
+                        threshold_df.at[(i, j), 'threshold'] = subset
+                        threshold_df.at[(i, j), self.scorer.__name__] = metric
                         j += 1
 
                 threshold_df.loc[i, 'type'] = 'categorical'
@@ -99,9 +102,9 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
                         predictions = operator(X[col], val)
                         metric = self._score(y, predictions)
 
-                        threshold_df.loc[(i, j), 'threshold'] = val
-                        threshold_df.loc[(i, j), 'direction'] = direction
-                        threshold_df.loc[(i, j), self.scorer.__name__] = metric
+                        threshold_df.at[(i, j), 'threshold'] = val
+                        threshold_df.at[(i, j), 'direction'] = direction
+                        threshold_df.at[(i, j), self.scorer.__name__] = metric
                         j += 1
 
                 threshold_df.loc[i, 'type'] = 'numerical'
@@ -155,12 +158,13 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
             Returns:
                 Series with prediction for all cues used
             """
+            ret_ser = pd.Series()
             for index, cue_row in cue_df.iterrows():
                 operator = operator_dict[cue_row['direction']]
                 outcome = operator(row[cue_row['feature']], cue_row['threshold'])
 
                 # store prediction in series
-                row.set_value(index, outcome)
+                ret_ser.set_value(index, outcome)
 
                 # exit tree if outcome is exit or last cue reached
                 if (cue_row['exit'] == int(outcome)) or (index + 1 == nr_rows):
@@ -168,7 +172,7 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
                     break
 
             # return predictions for cues used
-            return row[-cues_used:]
+            return ret_ser
 
         all_predictions = X.apply(prediction_func, axis=1)
         return all_predictions
@@ -192,21 +196,24 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
             X: Dataframe with all predictions
 
         Returns:
-            Dataframe with pruned prediction
+            Dataframe with pruned prediction, number of cues used, fractional usage of each cue
         """
         all_predictions = self._predict_all(X, cue_df)
 
         # prune non classifying features
-        cols = [col for col in all_predictions if all_predictions[col].notnull().mean() >= self.stopping_param]
+        fraction_used = all_predictions.notnull().mean()
+
+        cols = [col for col in all_predictions if fraction_used[col] >= self.stopping_param]
 
         all_predictions = all_predictions[cols]
+        fraction_used = fraction_used[:len(cols)]
 
         # get last prediction
         predictions = self._get_final_prediction(all_predictions)
 
         nr_cues_used = len(cols)
 
-        return predictions, nr_cues_used
+        return predictions, nr_cues_used, fraction_used
 
     def _growtrees(self, X, y):
         """Grow all possible trees up to self.max_levels. Prune levels classifying less than self.stopping_param
@@ -222,7 +229,8 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         midx = pd.MultiIndex(levels=[[], []],
                              labels=[[], []],
                              names=['tree', 'idx'])
-        tree_df = pd.DataFrame(columns=['feature', 'direction', 'threshold', 'type', self.scorer.__name__], index=midx)
+        tree_df = pd.DataFrame(
+            columns=['feature', 'direction', 'threshold', 'type', self.scorer.__name__, 'fraction_used'], index=midx)
         for tree in range(2 ** (self.max_levels - 1)):
             for index, feature_row in relevant_features.iterrows():
                 tree_df['threshold'] = tree_df['threshold'].astype(object)
@@ -235,28 +243,50 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
 
             tree_df['exit'] = tree_df['exit'].astype(float)
 
-            predictions, nr_cues_used = self._predict_and_prune(X, tree_df.loc[tree])
+            predictions, nr_cues_used, fraction_used = self._predict_and_prune(X, tree_df.loc[tree])
 
             for i in range(nr_cues_used, self.max_levels):
                 tree_df.drop(index=(tree, i), inplace=True)
+
+            tree_df.loc[tree, 'fraction_used'] = fraction_used.values
             tree_df.loc[(tree, nr_cues_used - 1), 'exit'] = 0.5
 
             tree_df.loc[tree, self.scorer.__name__] = self._score(y, predictions)
 
         self.all_trees = tree_df
 
-    def get_tree(self, idx=None):
+    def get_tree(self, idx=None, decision_view=True):
         """Get specific tree from all trees
 
         Args:
             idx: index of desired tree. Will return best tree if None
+            decision_view: if true, will return dataframe in easily readable form, which
+            can then be used to make a quick decision. If false, will return original
+            form with more statistics.
 
         Returns:
             Dataframe of tree
         """
         if idx is None:
             idx = self.all_trees[self.scorer.__name__].idxmax()[0]
-        return self.all_trees.loc[idx]
+
+        tree_df = self.all_trees.loc[idx]
+
+        if decision_view:
+            def exit_action(exit):
+                ret_ser = pd.Series()
+                ret_ser.set_value('IF YES', '↓')
+                ret_ser.set_value('IF NO', '↓')
+                if exit <= 0.5:
+                    ret_ser.set_value('IF NO', 'decide NO')
+                if exit >= 0.5:
+                    ret_ser.set_value('IF YES', 'decide YES')
+                return ret_ser
+
+            tree_df = pd.concat([tree_df, tree_df['exit'].apply(exit_action)], axis=1)
+            tree_df = tree_df[['IF NO', 'feature', 'direction', 'threshold', 'IF YES']]
+
+        return tree_df
 
     def fit(self, X, y):
         """Fits the classifier to the data.
@@ -284,7 +314,7 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         Returns:
             predictions
         """
-        all_predictions = self._predict_all(X, self.get_tree(tree_idx))
+        all_predictions = self._predict_all(X, self.get_tree(tree_idx, decision_view=False))
         return self._get_final_prediction(all_predictions)
 
     def score(self, X, y=None):
