@@ -27,7 +27,7 @@ setup(
     author='dominiczijlstra',
     author_email='dominiczijlstra@gmail.com',
     description='A fast and frugal tree classifier for sklearn',
-    long_description=long_description,
+    long_description=get_long_description(),
     long_description_content_type='text/markdown',
     install_requires=[
                 'numpy',
