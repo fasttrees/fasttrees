@@ -7,7 +7,7 @@ def get_long_description():
     from os import path
 
     this_directory = path.abspath(path.dirname(__file__))
-        with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
+        with open(path.join(this_directory, 'README.md'), mode='r', encoding='utf-8') as f:
             long_description = f.read()
     return long_description
 
@@ -17,7 +17,7 @@ def get_version():
     '''
     import re
 
-    with open("fasttrees/__init__.py", encoding="utf8") as f:
+    with open("fasttrees/__init__.py", mode='r', encoding="utf8") as f:
         version = re.search(r'__version__ = "(.*?)"', f.read()).group(1)
     return version
 
