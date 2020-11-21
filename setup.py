@@ -17,7 +17,7 @@ def get_version():
     '''
     import re
 
-    with open("fasttrees/__init__.py", mode='r', encoding="utf8") as f:
+    with open("fasttrees/__init__.py", mode='r', encoding="utf-8") as f:
         version = re.search(r'__version__ = "(.*?)"', f.read()).group(1)
     return version
 
