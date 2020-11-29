@@ -35,7 +35,7 @@ setup(
     long_description_content_type='text/markdown',
     install_requires=[
                 'numpy',
-                'pandas',
+                'pandas<=0.25.3',
                 'sklearn',
                 'logging'
           ]
