@@ -1,6 +1,9 @@
 from setuptools import setup
 
 
+import fasttrees
+
+
 def get_long_description():
     ''' returns the content of the README.md file as a string.
     '''
@@ -28,9 +31,9 @@ setup(
     packages=['fasttrees'],
     url='https://github.com/dominiczy/fasttrees',
     license='MIT License',
-    author='dominiczijlstra',
-    author_email='dominiczijlstra@gmail.com',
-    description='A fast and frugal tree classifier for sklearn',
+    author=fasttrees.__author__,
+    author_email=fasttrees.__author_email__,
+    description=fasttrees.__description__,
     long_description=get_long_description(),
     long_description_content_type='text/markdown',
     install_requires=[
