@@ -15,19 +15,10 @@ def get_long_description():
     return long_description
 
 
-def get_version():
-    ''' returns the version number given in __init__.py as a string.
-    '''
-    import re
-
-    with open("fasttrees/__init__.py", mode='r', encoding="utf-8") as f:
-        version = re.search(r'__version__ = "(.*?)"', f.read()).group(1)
-    return version
-
 
 setup(
     name='fasttrees',
-    version=get_version(),
+    version=fasttrees.__version__,
     packages=['fasttrees'],
     url='https://github.com/dominiczy/fasttrees',
     license='MIT License',
