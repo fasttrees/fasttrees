@@ -30,7 +30,7 @@ setup(
     install_requires=[
                 'numpy',
                 'pandas<=0.25.3',
-                'sklearn',
+                'sklearn<=0.23.2',
                 'logging'
           ]
 )
