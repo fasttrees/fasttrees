@@ -11,21 +11,42 @@ operator_dict = {'<=': operator.le, '>': operator.gt, '==': operator.eq, 'in': l
 
 
 class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
-    """Fast-and-Frugal-Tree classifier"""
+    """Fast-and-Frugal-Tree classifier
+
+        Inits Fast-and-Frugal-Tree classifier.
+
+        Parameters
+        ----------
+        construction_algorithm : str, default='marginal_fan'
+            Specifies the algorithm used to create trees. Currently only supports 'marginal_fan'.
+
+        scorer : func, default=sklearn.metrics.scorer.balanced_accuracy_score
+            Specifies the metric to maximize when choosing threshold. Any function that returns higher values for better predictions.
+
+        max_levels : int
+            Specifies the maximum number of levels for possible trees.
+
+        stopping_param : float
+            Specifies the prune levels containing less than ``stopping_param`` of cases.
+
+        max_categories : int
+            Specifies the maximum number of categories to group together for categorical columns.
+
+        max_cuts : int
+            Specifies the maximum number of cuts to try on a numerical column.
+
+        Examples
+        ----------
+        >>> from fasttrees.fasttrees import FastFrugalTreeClassifier
+        >>> from sklearn.datasets import make_classification
+        >>> X, y = make_classification(n_features=4, random_state=0)
+        >>> fc = FastFrugalTreeClassifier
+        >>> fc.fit(X, y)
+        >>> fc.get_tree()
+    """
 
     def __init__(self, construction_algorithm='marginal_fan', scorer=balanced_accuracy_score, max_levels=4,
                  stopping_param=.1, max_categories=4, max_cuts=100):
-        """Inits Fast-and-Frugal-Tree classifier.
-        Args:
-            construction_algorithm: algorithm used to create trees. Currently supported: 'marginal_fan'
-            scorer: metric to maximize when choosing threshold. Any function that returns higher values for better predictions
-            max_levels: maximum number of levels for possible trees
-            stopping_param: prune levels containing less than stopping_param of cases
-            max_categories: maximum number of categories to group together for categorical columns
-            max_cuts: maximum number of cuts to try on a numerical column
-        Returns:
-            None
-        """
         if construction_algorithm in construction_algorithms:
             self.construction_algorithm = construction_algorithm
         else:
