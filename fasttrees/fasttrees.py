@@ -330,10 +330,17 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
 
     def score(self, X, y=None):
         """Predicts for data X. Scores predictions against y.
-        Args:
-            X: Dataframe with features as columns. Features can be numerical or categorical
-            y: real outcomes
-        Returns:
-            Score
+
+        Parameters
+        ----------
+            X : pandas.DataFrame
+                The test samples as a Dataframe with features as columns. Features can be numerical or categorical.
+            y : pandas.DataFrame, default=None
+                The true labels for ``X```.
+
+        Returns
+        ----------
+            score : float
+                The score of ``self.predict(X)`` w.r.t ``y``.
         """
         return self._score(y, self.predict(X))
