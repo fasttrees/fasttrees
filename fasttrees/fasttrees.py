@@ -304,7 +304,7 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         return tree_df
 
     def fit(self, X, y):
-        """Builds the fast and frugal tree classifier to the training set (X, y).
+        """Builds the fast and frugal tree classifier from the training set (X, y).
 
         Parameters
         ----------
