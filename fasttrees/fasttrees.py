@@ -318,12 +318,22 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         return self
 
     def predict(self, X, tree_idx=None):
-        """Predicts outcomes for data X.
-        Args:
-            X: Dataframe with features as columns. Features can be numerical or categorical
-            tree_idx: tree to use, default is best tree
-        Returns:
-            predictions
+        """Predict class value for ``X``.
+
+        Returns the predicted class for each sample in ``X``.
+
+        Parameters
+        ----------
+            X : pandas.DataFrame
+                The input samples as a Dataframe with features as columns. Features can be numerical or categorical.
+
+            tree_idx : int, default=None
+                The tree to use for the predictions. Default is best tree.
+
+        Returns
+        ----------
+           y : pandas.DataFrame
+                The predicted classes.
         """
         all_predictions = self._predict_all(X, self.get_tree(tree_idx, decision_view=False))
         return self._get_final_prediction(all_predictions)
