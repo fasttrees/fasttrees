@@ -232,12 +232,20 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         return predictions, nr_cues_used, fraction_used
 
     def _growtrees(self, X, y):
-        """Grow all possible trees up to self.max_levels. Prune levels classifying less than self.stopping_param
-        Args:
-            X: Dataframe with features as columns. Features can be numerical or categorical
-            y: real, binary, outcomes.
-        Returns:
-            self.all_trees: Dataframe with all trees grown
+        """Grow all possible trees up to ``self.max_levels``. Levels that classify less than``self.stopping_param`` are pruned.
+
+        Parameters
+        ----------
+            X : pandas.Dataframe
+                The training input samples with features as columns. Features can be numerical or categorical.
+
+            y : pandas.Dataframe
+                The target class labels as real or binary outcomes.
+
+        Returns
+        ----------
+            self.all_trees : pandas.DataFrame
+                A dataframe with all trees grown.
         """
         relevant_features = self.thresholds.head(self.max_levels)
         midx = pd.MultiIndex(levels=[[], []],
