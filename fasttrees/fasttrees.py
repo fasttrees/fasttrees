@@ -304,12 +304,20 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         return tree_df
 
     def fit(self, X, y):
-        """Fits the classifier to the data.
-        Args:
-            X: Dataframe with features as columns. Features can be numerical or categorical
-            y: real, binary, outcomes.
-        Returns:
-            self: Fitted FastFrugalTreeClassifier
+        """Builds the fast and frugal tree classifier to the training set (X, y).
+
+        Parameters
+        ----------
+            X : pandas.Dataframe
+                The training input samples with features as columns. Features can be numerical or categorical.
+
+            y : pandas.Dataframe
+                The target class labels as real or binary outcomes.
+
+        Returns
+        ----------
+            self : FastFrugalTreeClassifier
+                Fitted estimator.
         """
         self._get_thresholds(X, y)
         self._get_best_thresholds()
