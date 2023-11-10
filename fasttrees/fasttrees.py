@@ -273,14 +273,22 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         self.all_trees = tree_df
 
     def get_tree(self, idx=None, decision_view=True):
-        """Get specific tree from all trees
-        Args:
-            idx: index of desired tree. Will return best tree if None
-            decision_view: if true, will return dataframe in easily readable form, which
-            can then be used to make a quick decision. If false, will return original
-            form with more statistics.
-        Returns:
-            Dataframe of tree
+        """Get tree with index ``idx`` from all trees.
+
+        Parameters
+        ----------
+            idx : int, Default=None
+                The index of the desired tree. Default is None, which returns the best tree.
+
+            decision_view : bool, default=True
+                If true, it will return a dataframe in an easily readable form, which can then be used to make a quick decision.
+                If false, it will return the original dataframe with more statistics.
+                The default is ``True``.
+
+        Returns
+        ----------
+            tree_df : pandas.DataFrame
+                The dataframe of the tree with index ``idx``.
         """
         if idx is None:
             idx = self.all_trees[self.scorer.__name__].idxmax()[0]
