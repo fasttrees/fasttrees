@@ -25,13 +25,15 @@ from sklearn import datasets, model_selection
 from fasttrees.fasttrees import FastFrugalTreeClassifier
 
 
+# Load data set
 iris_dict = datasets.load_iris(as_frame=True)
 
+# Split into train and test data set
 X_iris, y_iris = iris_dict['data'], iris_dict['target']
-
 X_train_iris, y_train_iris, X_test_iris, y_test_iris = model_selection.train_test_split(
     X_iris, y_iris, test_size=0.4, random_state=42)
 
+# Fit and test fitted tree
 fftc = FastFrugalTreeClassifier()
 fftc.fit(X_train_iris, y_train_iris)
 fftc.score(X_test_iris, y_test_iris)
