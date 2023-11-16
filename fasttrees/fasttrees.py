@@ -206,11 +206,18 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         return all_predictions.ffill(axis=1).iloc[:, -1]
 
     def _predict_and_prune(self, X, cue_df):
-        """Make predictions and prune features that classify less than stopping_param.
-        Args:
-            X: Dataframe with all predictions
-        Returns:
-            Dataframe with pruned prediction, number of cues used, fractional usage of each cue
+        """Make predictions and prune features that classify less than ``self.stopping_param``.
+
+        Parameters
+        ----------
+            X : pandas.Dataframe
+                The training input samples with features as columns. Features can be numerical or categorical.
+
+        Returns
+        ----------
+            Tuple
+                A tuple of length three where the first element are the predictions, the second element are the nr cused used, and the third ond
+                are the fraction used.
         """
         logging.debug('Predicting ...')
         all_predictions = self._predict_all(X, cue_df)
