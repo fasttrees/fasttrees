@@ -11,21 +11,42 @@ operator_dict = {'<=': operator.le, '>': operator.gt, '==': operator.eq, 'in': l
 
 
 class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
-    """Fast-and-Frugal-Tree classifier"""
+    """Fast-and-Frugal-Tree classifier
+
+        Inits Fast-and-Frugal-Tree classifier.
+
+        Parameters
+        ----------
+        construction_algorithm : str, default='marginal_fan'
+            Specifies the algorithm used to create trees. Currently only supports 'marginal_fan'.
+
+        scorer : func, default=sklearn.metrics.scorer.balanced_accuracy_score
+            Specifies the metric to maximize when choosing threshold. Any function that returns higher values for better predictions.
+
+        max_levels : int
+            Specifies the maximum number of levels for possible trees.
+
+        stopping_param : float
+            Specifies the prune levels containing less than ``stopping_param`` of cases.
+
+        max_categories : int
+            Specifies the maximum number of categories to group together for categorical columns.
+
+        max_cuts : int
+            Specifies the maximum number of cuts to try on a numerical column.
+
+        Examples
+        ----------
+        >>> from fasttrees.fasttrees import FastFrugalTreeClassifier
+        >>> from sklearn.datasets import make_classification
+        >>> X, y = make_classification(n_features=4, random_state=0)
+        >>> fc = FastFrugalTreeClassifier
+        >>> fc.fit(X, y)
+        >>> fc.get_tree()
+    """
 
     def __init__(self, construction_algorithm='marginal_fan', scorer=balanced_accuracy_score, max_levels=4,
                  stopping_param=.1, max_categories=4, max_cuts=100):
-        """Inits Fast-and-Frugal-Tree classifier.
-        Args:
-            construction_algorithm: algorithm used to create trees. Currently supported: 'marginal_fan'
-            scorer: metric to maximize when choosing threshold. Any function that returns higher values for better predictions
-            max_levels: maximum number of levels for possible trees
-            stopping_param: prune levels containing less than stopping_param of cases
-            max_categories: maximum number of categories to group together for categorical columns
-            max_cuts: maximum number of cuts to try on a numerical column
-        Returns:
-            None
-        """
         if construction_algorithm in construction_algorithms:
             self.construction_algorithm = construction_algorithm
         else:
@@ -43,23 +64,39 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         self.max_cuts = max_cuts
 
     def _score(self, y, predictions):
-        """Scores predictions against y.
-        Args:
-            y: real outcomes
-            predictions: predicted outcomes
-        Returns:
-            Score
+        """
+        Return the score on the given ``y`` and ``predictions``.
+
+        Parameters
+        ----------
+            y : pandas.DataFrame
+                The real outcomes.
+
+            predictions : pandas.DataFrame
+                The predicted outcomes.
+
+        Returns
+        ----------
+            score : float
+                The score w.r.t. ``y``.
         """
         return self.scorer(y, predictions)
 
     def _get_thresholds(self, X, y):
-        """Get possible thresholds and directions for each feature.
-        Args:
-            X: Dataframe with features as columns. Features can be numerical or categorical
-            y: real, binary, outcomes.
-        Returns:
-            self.all_thresholds: Dataframe with rows for every feature, with threshold, direction
-            and scorer
+        """
+        Get possible thresholds and directions for each feature.
+
+        Parameters
+        ----------
+            X : pandas.DataFrame
+                The test samples as a Dataframe with features as columns. Features can be numerical or categorical.
+            y : pandas.DataFrame
+                The true labels for ``X```, which are real, or binary, outcomes.
+
+        Returns
+        ----------
+            self.all_thresholds : pandas.DataFrame
+                A dataframe with rows for every feature, with threshold, direction and scorer.
         """
         midx = pd.MultiIndex(levels=[[], []],
                              labels=[[], []],
@@ -119,11 +156,13 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         self.all_thresholds = threshold_df
 
     def _get_best_thresholds(self):
-        """Get thresholds and directions that maximimize scorer for each feature.
-        Args:
-        Returns:
-            self.thresholds: Dataframe with rows for every feature, with threshold, direction
-            and scorer, sorted by scorer
+        """
+        Get thresholds and directions that maximimize scorer for each feature.
+
+        Returns
+        ----------
+            self.thresholds : pandas.DataFrame
+                A dataframe with rows for every feature, with threshold, direction and scorer, sorted by scorer.
         """
         threshold_df = pd.DataFrame(columns=['feature', 'direction', 'threshold', 'type', self.scorer.__name__])
         for cue_nr, cue_df in self.all_thresholds.groupby(level=0):
@@ -137,23 +176,41 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
 
     @staticmethod
     def _predict_all(X, cue_df):
-        """Make predictions for X given cue_df.
-        Args:
-            X: Dataframe with features as columns
-            cue_df: Dataframe with ordered features, directions, thresholds, exits
-        Returns:
-            Series with prediction for every cue in cue_df up to the point the fast-and-frugal-tree was exited
+        """
+        Make predictions for ``X`` given ``cue_df``.
+
+        Parameters
+        ----------
+            X : pandas.Dataframe
+                The input samples as a dataframe with features as columns. Features can be numerical or categorical.
+
+            cue_df : pandas.Dataframe
+                A dataframe with ordered features, directions, thresholds, and exists.
+
+        Returns
+        ----------
+            all_predictions : pandas.Series
+                A series with a prediction for every cue in cue_df up to the point where the fast-and-frugal-tree was exited.
         """
         nr_rows = cue_df.shape[0]
 
         # could be replaced with logical expression which would not have to be applied row-wise? currently very slow
         def prediction_func(row):
-            """Look up the row's features in order of their score. Exit if the threshold is met and the tree exits on True,
+            """
+            Makes a prediction for the given feature row.
+
+            Look up the row's features in order of their score. Exit if the threshold is met and the tree exits on True,
             or if the threshold is not met and the tree exits on False.
-            Args:
-                row: Dataframe row with features as columns
-            Returns:
-                Series with prediction for all cues used
+
+            Parameters
+            ----------
+                row : dict
+                    A dict with the features.
+
+            Returns
+            ----------
+                ret_ser : pandas.Series
+                    A series with a prediction for all cues used.
             """
             ret_ser = pd.Series()
             for index, cue_row in cue_df.iterrows():
@@ -176,20 +233,35 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
 
     @staticmethod
     def _get_final_prediction(all_predictions):
-        """Get final (latest non-null) predictions from all cue predictions.
-        Args:
-            X: Dataframe with all predictions
-        Returns:
-            Dataframe with final prediction
+        """
+        Get final (latest non-null) predictions from all cue predictions.
+
+        Parameters
+        ----------
+            all_predictions : pandas.Dataframe
+               A dataframe with all predictions.
+
+        Returns
+        ----------
+            final_prediction : pandas.DataFrame
+                A data frame with the final predictions.
         """
         return all_predictions.ffill(axis=1).iloc[:, -1]
 
     def _predict_and_prune(self, X, cue_df):
-        """Make predictions and prune features that classify less than stopping_param.
-        Args:
-            X: Dataframe with all predictions
-        Returns:
-            Dataframe with pruned prediction, number of cues used, fractional usage of each cue
+        """
+        Make predictions and prune features that classify less than ``self.stopping_param``.
+
+        Parameters
+        ----------
+            X : pandas.Dataframe
+                The training input samples with features as columns. Features can be numerical or categorical.
+
+        Returns
+        ----------
+            Tuple
+                A tuple of length three where the first element are the predictions, the second element are the nr cused used, and the third ond
+                are the fraction used.
         """
         logging.debug('Predicting ...')
         all_predictions = self._predict_all(X, cue_df)
@@ -211,12 +283,21 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         return predictions, nr_cues_used, fraction_used
 
     def _growtrees(self, X, y):
-        """Grow all possible trees up to self.max_levels. Prune levels classifying less than self.stopping_param
-        Args:
-            X: Dataframe with features as columns. Features can be numerical or categorical
-            y: real, binary, outcomes.
-        Returns:
-            self.all_trees: Dataframe with all trees grown
+        """
+        Grow all possible trees up to ``self.max_levels``. Levels that classify less than``self.stopping_param`` are pruned.
+
+        Parameters
+        ----------
+            X : pandas.Dataframe
+                The training input samples with features as columns. Features can be numerical or categorical.
+
+            y : pandas.Dataframe
+                The target class labels as real or binary outcomes.
+
+        Returns
+        ----------
+            self.all_trees : pandas.DataFrame
+                A dataframe with all trees grown.
         """
         relevant_features = self.thresholds.head(self.max_levels)
         midx = pd.MultiIndex(levels=[[], []],
@@ -252,14 +333,23 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         self.all_trees = tree_df
 
     def get_tree(self, idx=None, decision_view=True):
-        """Get specific tree from all trees
-        Args:
-            idx: index of desired tree. Will return best tree if None
-            decision_view: if true, will return dataframe in easily readable form, which
-            can then be used to make a quick decision. If false, will return original
-            form with more statistics.
-        Returns:
-            Dataframe of tree
+        """
+        Get tree with index ``idx`` from all trees.
+
+        Parameters
+        ----------
+            idx : int, Default=None
+                The index of the desired tree. Default is None, which returns the best tree.
+
+            decision_view : bool, default=True
+                If true, it will return a dataframe in an easily readable form, which can then be used to make a quick decision.
+                If false, it will return the original dataframe with more statistics.
+                The default is ``True``.
+
+        Returns
+        ----------
+            tree_df : pandas.DataFrame
+                The dataframe of the tree with index ``idx``.
         """
         if idx is None:
             idx = self.all_trees[self.scorer.__name__].idxmax()[0]
@@ -283,12 +373,21 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         return tree_df
 
     def fit(self, X, y):
-        """Fits the classifier to the data.
-        Args:
-            X: Dataframe with features as columns. Features can be numerical or categorical
-            y: real, binary, outcomes.
-        Returns:
-            self: Fitted FastFrugalTreeClassifier
+        """
+        Builds the fast and frugal tree classifier from the training set (X, y).
+
+        Parameters
+        ----------
+            X : pandas.Dataframe
+                The training input samples with features as columns. Features can be numerical or categorical.
+
+            y : pandas.Dataframe
+                The target class labels as real or binary outcomes.
+
+        Returns
+        ----------
+            self : FastFrugalTreeClassifier
+                Fitted estimator.
         """
         self._get_thresholds(X, y)
         self._get_best_thresholds()
@@ -297,22 +396,42 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         return self
 
     def predict(self, X, tree_idx=None):
-        """Predicts outcomes for data X.
-        Args:
-            X: Dataframe with features as columns. Features can be numerical or categorical
-            tree_idx: tree to use, default is best tree
-        Returns:
-            predictions
+        """
+        Predict class value for ``X``.
+
+        Returns the predicted class for each sample in ``X``.
+
+        Parameters
+        ----------
+            X : pandas.DataFrame
+                The input samples as a Dataframe with features as columns. Features can be numerical or categorical.
+
+            tree_idx : int, default=None
+                The tree to use for the predictions. Default is best tree.
+
+        Returns
+        ----------
+           y : pandas.DataFrame
+                The predicted classes.
         """
         all_predictions = self._predict_all(X, self.get_tree(tree_idx, decision_view=False))
         return self._get_final_prediction(all_predictions)
 
     def score(self, X, y=None):
-        """Predicts for data X. Scores predictions against y.
-        Args:
-            X: Dataframe with features as columns. Features can be numerical or categorical
-            y: real outcomes
-        Returns:
-            Score
+        """
+        Predicts for data X. Scores predictions against y.
+
+        Parameters
+        ----------
+            X : pandas.DataFrame
+                The test samples as a Dataframe with features as columns. Features can be numerical or categorical.
+
+            y : pandas.DataFrame, default=None
+                The true labels for ``X```.
+
+        Returns
+        ----------
+            score : float
+                The score of ``self.predict(X)`` w.r.t ``y``.
         """
         return self._score(y, self.predict(X))
