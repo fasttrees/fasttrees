@@ -83,7 +83,8 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         return self.scorer(y, predictions)
 
     def _get_thresholds(self, X, y):
-        """Get possible thresholds and directions for each feature.
+        """
+        Get possible thresholds and directions for each feature.
 
         Parameters
         ----------
@@ -155,7 +156,8 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         self.all_thresholds = threshold_df
 
     def _get_best_thresholds(self):
-        """Get thresholds and directions that maximimize scorer for each feature.
+        """
+        Get thresholds and directions that maximimize scorer for each feature.
 
         Returns
         ----------
@@ -174,7 +176,8 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
 
     @staticmethod
     def _predict_all(X, cue_df):
-        """Make predictions for ``X`` given ``cue_df``.
+        """
+        Make predictions for ``X`` given ``cue_df``.
 
         Parameters
         ----------
@@ -193,7 +196,8 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
 
         # could be replaced with logical expression which would not have to be applied row-wise? currently very slow
         def prediction_func(row):
-            """Makes a prediction for the given feature row.
+            """
+            Makes a prediction for the given feature row.
 
             Look up the row's features in order of their score. Exit if the threshold is met and the tree exits on True,
             or if the threshold is not met and the tree exits on False.
@@ -229,7 +233,8 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
 
     @staticmethod
     def _get_final_prediction(all_predictions):
-        """Get final (latest non-null) predictions from all cue predictions.
+        """
+        Get final (latest non-null) predictions from all cue predictions.
 
         Parameters
         ----------
@@ -244,7 +249,8 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         return all_predictions.ffill(axis=1).iloc[:, -1]
 
     def _predict_and_prune(self, X, cue_df):
-        """Make predictions and prune features that classify less than ``self.stopping_param``.
+        """
+        Make predictions and prune features that classify less than ``self.stopping_param``.
 
         Parameters
         ----------
@@ -277,7 +283,8 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         return predictions, nr_cues_used, fraction_used
 
     def _growtrees(self, X, y):
-        """Grow all possible trees up to ``self.max_levels``. Levels that classify less than``self.stopping_param`` are pruned.
+        """
+        Grow all possible trees up to ``self.max_levels``. Levels that classify less than``self.stopping_param`` are pruned.
 
         Parameters
         ----------
@@ -326,7 +333,8 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         self.all_trees = tree_df
 
     def get_tree(self, idx=None, decision_view=True):
-        """Get tree with index ``idx`` from all trees.
+        """
+        Get tree with index ``idx`` from all trees.
 
         Parameters
         ----------
@@ -365,7 +373,8 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         return tree_df
 
     def fit(self, X, y):
-        """Builds the fast and frugal tree classifier from the training set (X, y).
+        """
+        Builds the fast and frugal tree classifier from the training set (X, y).
 
         Parameters
         ----------
@@ -387,7 +396,8 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         return self
 
     def predict(self, X, tree_idx=None):
-        """Predict class value for ``X``.
+        """
+        Predict class value for ``X``.
 
         Returns the predicted class for each sample in ``X``.
 
@@ -408,12 +418,14 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         return self._get_final_prediction(all_predictions)
 
     def score(self, X, y=None):
-        """Predicts for data X. Scores predictions against y.
+        """
+        Predicts for data X. Scores predictions against y.
 
         Parameters
         ----------
             X : pandas.DataFrame
                 The test samples as a Dataframe with features as columns. Features can be numerical or categorical.
+
             y : pandas.DataFrame, default=None
                 The true labels for ``X```.
 
