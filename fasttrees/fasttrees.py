@@ -75,12 +75,18 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
 
     def _get_thresholds(self, X, y):
         """Get possible thresholds and directions for each feature.
-        Args:
-            X: Dataframe with features as columns. Features can be numerical or categorical
-            y: real, binary, outcomes.
-        Returns:
-            self.all_thresholds: Dataframe with rows for every feature, with threshold, direction
-            and scorer
+
+        Parameters
+        ----------
+            X : pandas.DataFrame
+                The test samples as a Dataframe with features as columns. Features can be numerical or categorical.
+            y : pandas.DataFrame
+                The true labels for ``X```, which are real, or binary, outcomes.
+
+        Returns
+        ----------
+            self.all_thresholds : pandas.DataFrame
+                A dataframe with rows for every feature, with threshold, direction and scorer.
         """
         midx = pd.MultiIndex(levels=[[], []],
                              labels=[[], []],
