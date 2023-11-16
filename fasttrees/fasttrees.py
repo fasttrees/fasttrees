@@ -64,12 +64,21 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         self.max_cuts = max_cuts
 
     def _score(self, y, predictions):
-        """Scores predictions against y.
-        Args:
-            y: real outcomes
-            predictions: predicted outcomes
-        Returns:
-            Score
+        """
+        Return the score on the given ``y`` and ``predictions``.
+
+        Parameters
+        ----------
+            y : pandas.DataFrame
+                The real outcomes.
+
+            predictions : pandas.DataFrame
+                The predicted outcomes.
+
+        Returns
+        ----------
+            score : float
+                The score w.r.t. ``y``.
         """
         return self.scorer(y, predictions)
 
