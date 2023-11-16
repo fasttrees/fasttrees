@@ -158,23 +158,39 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
 
     @staticmethod
     def _predict_all(X, cue_df):
-        """Make predictions for X given cue_df.
-        Args:
-            X: Dataframe with features as columns
-            cue_df: Dataframe with ordered features, directions, thresholds, exits
-        Returns:
-            Series with prediction for every cue in cue_df up to the point the fast-and-frugal-tree was exited
+        """Make predictions for ``X`` given ``cue_df``.
+
+        Parameters
+        ----------
+            X : pandas.Dataframe
+                The input samples as a dataframe with features as columns. Features can be numerical or categorical.
+
+            cue_df : pandas.Dataframe
+                A dataframe with ordered features, directions, thresholds, and exists.
+
+        Returns
+        ----------
+            all_predictions : pandas.Series
+                A series with a prediction for every cue in cue_df up to the point where the fast-and-frugal-tree was exited.
         """
         nr_rows = cue_df.shape[0]
 
         # could be replaced with logical expression which would not have to be applied row-wise? currently very slow
         def prediction_func(row):
-            """Look up the row's features in order of their score. Exit if the threshold is met and the tree exits on True,
+            """Makes a prediction for the given feature row.
+
+            Look up the row's features in order of their score. Exit if the threshold is met and the tree exits on True,
             or if the threshold is not met and the tree exits on False.
-            Args:
-                row: Dataframe row with features as columns
-            Returns:
-                Series with prediction for all cues used
+
+            Parameters
+            ----------
+                row : dict
+                    A dict with the features.
+
+            Returns
+            ----------
+                ret_ser : pandas.Series
+                    A series with a prediction for all cues used.
             """
             ret_ser = pd.Series()
             for index, cue_row in cue_df.iterrows():
