@@ -15,6 +15,28 @@ You can install fasttrees using
 pip install fasttrees
 ```
 
+## Quick first start
+
+Below we provide a qick first start example with fast-and-frugal trees. We use the popular [iris flower data set (also known as the Fisher's Iris data set)](https://doi.org/10.1111/j.1469-1809.1936.tb02137.x), split it into a train and test data set, and fit a fast-and-frugal tree classifier on the training data set. Finally, we get the score on the test data set.
+
+```python
+from sklearn import datasets, model_selection
+
+from fasttrees.fasttrees import FastFrugalTreeClassifier
+
+
+iris_dict = datasets.load_iris(as_frame=True)
+
+X_iris, y_iris = iris_dict['data'], iris_dict['target']
+
+X_train_iris, y_train_iris, X_test_iris, y_test_iris = model_selection.train_test_split(X_iris, y_iris, test_size=0.4, random_state=42)
+
+fftc = FastFrugalTreeClassifier()
+fftc.fit(X_train_iris, y_train_iris)
+
+fftc.score(X_test_iris, y_test_iris)
+```
+
 ## Usage
 Instantiate a fast-and-frugal tree classifier:
 ```python
