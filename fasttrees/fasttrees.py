@@ -198,10 +198,16 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
     @staticmethod
     def _get_final_prediction(all_predictions):
         """Get final (latest non-null) predictions from all cue predictions.
-        Args:
-            X: Dataframe with all predictions
-        Returns:
-            Dataframe with final prediction
+
+        Parameters
+        ----------
+            all_predictions : pandas.Dataframe
+               A dataframe with all predictions.
+
+        Returns
+        ----------
+            final_prediction : pandas.DataFrame
+                A data frame with the final predictions.
         """
         return all_predictions.ffill(axis=1).iloc[:, -1]
 
