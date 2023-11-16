@@ -1,5 +1,4 @@
 [![Downloads](https://static.pepy.tech/badge/fasttrees)](https://pepy.tech/project/fasttrees)
-
 ![PyPI - Version](https://img.shields.io/pypi/v/fasttrees)
 
 
