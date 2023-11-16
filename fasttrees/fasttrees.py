@@ -141,10 +141,11 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
 
     def _get_best_thresholds(self):
         """Get thresholds and directions that maximimize scorer for each feature.
-        Args:
-        Returns:
-            self.thresholds: Dataframe with rows for every feature, with threshold, direction
-            and scorer, sorted by scorer
+
+        Returns
+        ----------
+            self.thresholds : pandas.DataFrame
+                A dataframe with rows for every feature, with threshold, direction and scorer, sorted by scorer.
         """
         threshold_df = pd.DataFrame(columns=['feature', 'direction', 'threshold', 'type', self.scorer.__name__])
         for cue_nr, cue_df in self.all_thresholds.groupby(level=0):
