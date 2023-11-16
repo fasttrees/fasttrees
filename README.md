@@ -1,3 +1,5 @@
+[![Downloads](https://static.pepy.tech/badge/fasttrees)](https://pepy.tech/project/fasttrees)
+
 # fasttrees
 A fast-and-frugal-tree classifier based on Python's scikit learn.
 
