@@ -45,6 +45,11 @@ setup(
         'Programming Language :: Python :: 3.11',
         'Programming Language :: Python :: 3.12'
     ],
+    project_urls={
+        'Documentation': 'https://github.com/dominiczy/fasttrees/blob/master/README.md',
+        'Source': 'https://github.com/dominiczy/fasttrees',
+        'Tracker': 'https://github.com/dominiczy/fasttrees/issues',
+    },
     install_requires=[
                 'numpy',
                 'pandas<=0.25.3',
