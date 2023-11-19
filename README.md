@@ -1,6 +1,8 @@
 [![Downloads](https://static.pepy.tech/badge/fasttrees)](https://pepy.tech/project/fasttrees)
 ![PyPI - Version](https://img.shields.io/pypi/v/fasttrees)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/fasttrees)
+[![linting: pylint](https://img.shields.io/badge/linting-pylint-yellowgreen)](https://github.com/pylint-dev/pylint)
+
 
 # fasttrees
 A fast-and-frugal-tree classifier based on Python's scikit learn.
