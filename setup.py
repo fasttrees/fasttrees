@@ -10,8 +10,9 @@ def get_long_description():
     from os import path
 
     this_directory = path.abspath(path.dirname(__file__))
-        with open(path.join(this_directory, 'README.md'), mode='r', encoding='utf-8') as f:
-            long_description = f.read()
+    with open(path.join(this_directory, 'README.md'), mode='r', encoding='utf-8') as f:
+        long_description = f.read()
+
     return long_description
 
 
