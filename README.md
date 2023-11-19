@@ -3,6 +3,7 @@
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/fasttrees)
 [![linting: pylint](https://img.shields.io/badge/linting-pylint-yellowgreen)](https://github.com/pylint-dev/pylint)
 ![pyling: workflow](https://github.com/dominiczy/fasttrees/actions/workflows/pylint.yml/badge.svg)
+[![Upload Python Package](https://github.com/dominiczy/fasttrees/actions/workflows/python-publish.yml/badge.svg)](https://github.com/dominiczy/fasttrees/actions/workflows/python-publish.yml)
 
 
 # fasttrees
