@@ -27,6 +27,24 @@ setup(
     description=fasttrees.__description__,
     long_description=get_long_description(),
     long_description_content_type='text/markdown',
+    classifiers=[
+        'License :: OSI Approved :: MIT License',
+
+        'Intended Audience :: Science/Research',
+        'Intended Audience :: Developers',
+
+        'Topic :: Software Development',
+        'Topic :: Scientific/Engineering',
+
+        'Programming Language :: Python',
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3 :: Only',
+        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3.10',
+        'Programming Language :: Python :: 3.11',
+        'Programming Language :: Python :: 3.12'
+    ],
     install_requires=[
                 'numpy',
                 'pandas<=0.25.3',
