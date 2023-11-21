@@ -7,7 +7,12 @@ import operator
 import logging
 
 construction_algorithms = ['marginal_fan']
-operator_dict = {'<=': operator.le, '>': operator.gt, '==': operator.eq, 'in': lambda val, lst: val in lst}
+operator_dict = {
+    '<=': operator.le,
+    '>': operator.gt,
+    '==': operator.eq,
+    'in': lambda val, lst: val in lst
+}
 
 
 class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
@@ -45,13 +50,21 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         >>> fc.get_tree()
     """
 
-    def __init__(self, construction_algorithm='marginal_fan', scorer=balanced_accuracy_score, max_levels=4,
-                 stopping_param=.1, max_categories=4, max_cuts=100):
+    def __init__(
+        self,
+        construction_algorithm='marginal_fan',
+        scorer=balanced_accuracy_score,
+        max_levels=4,
+        stopping_param=.1,
+        max_categories=4,
+        max_cuts=100
+    ):
         if construction_algorithm in construction_algorithms:
             self.construction_algorithm = construction_algorithm
         else:
             raise ValueError(
-                'Not a valid construction_algorithm. Possible choices are {}'.format(construction_algorithms))
+                'Not a valid construction_algorithm.'\
+                'Possible choices are {}'.format(construction_algorithms))
 
         self.scorer = scorer
 
@@ -101,8 +114,9 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         midx = pd.MultiIndex(levels=[[], []],
                              labels=[[], []],
                              names=['cue_nr', 'threshold_nr'])
-        threshold_df = pd.DataFrame(columns=['feature', 'direction', 'threshold', 'type', self.scorer.__name__],
-                                    index=midx)
+        threshold_df = pd.DataFrame(
+            columns=['feature', 'direction', 'threshold', 'type', self.scorer.__name__],
+            index=midx)
 
         # Get optimal classification threshold for each feature
         for i, col in enumerate(X):
@@ -164,7 +178,8 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
             self.thresholds : pandas.DataFrame
                 A dataframe with rows for every feature, with threshold, direction and scorer, sorted by scorer.
         """
-        threshold_df = pd.DataFrame(columns=['feature', 'direction', 'threshold', 'type', self.scorer.__name__])
+        threshold_df = pd.DataFrame(
+            columns=['feature', 'direction', 'threshold', 'type', self.scorer.__name__])
         for cue_nr, cue_df in self.all_thresholds.groupby(level=0):
             idx = cue_df[self.scorer.__name__].idxmax()
             threshold_df.loc[cue_nr, ['feature', 'direction', 'threshold', 'type', self.scorer.__name__]] = cue_df.loc[
@@ -172,7 +187,10 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
 
         threshold_df[self.scorer.__name__] = threshold_df[self.scorer.__name__].astype(float)
 
-        self.thresholds = threshold_df.sort_values(by=self.scorer.__name__, ascending=False).reset_index(drop=True)
+        self.thresholds = (threshold_df
+            .sort_values(by=self.scorer.__name__, ascending=False)
+            .reset_index(drop=True)
+        )
 
     @staticmethod
     def _predict_all(X, cue_df):
@@ -304,7 +322,8 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
                              labels=[[], []],
                              names=['tree', 'idx'])
         tree_df = pd.DataFrame(
-            columns=['feature', 'direction', 'threshold', 'type', self.scorer.__name__, 'fraction_used'], index=midx)
+            columns=['feature', 'direction', 'threshold', 'type', self.scorer.__name__, 'fraction_used'],
+            index=midx)
         for tree in range(2 ** (self.max_levels - 1)):
             logging.debug('Grow tree {}...'.format(tree))
             for index, feature_row in relevant_features.iterrows():
@@ -314,7 +333,8 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
                     (tree, index), ['feature', 'direction', 'threshold', 'type', self.scorer.__name__]] = feature_row
 
                 # exit 0.5 is stop, exit 1 means stop on true, exit 0 means stop on false
-                tree_df.loc[(tree, index), 'exit'] = np.binary_repr(tree, width=self.max_levels)[-1 - index]
+                tree_df.loc[(tree, index), 'exit'] = np.binary_repr(
+                    tree, width=self.max_levels)[-1 - index]
 
             tree_df['exit'] = tree_df['exit'].astype(float)
 
