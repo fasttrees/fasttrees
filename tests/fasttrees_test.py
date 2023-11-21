@@ -3,7 +3,7 @@ Testing for Fast-And-Frugal tree module (fasttrees)
 '''
 
 
-from sklearn import datasets, preprocessing, model_selection
+from sklearn import datasets, model_selection
 import pytest
 
 from fasttrees.fasttrees import FastFrugalTreeClassifier
