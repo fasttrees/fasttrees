@@ -1,14 +1,15 @@
 '''Fast-and-frugal tree classifier
 '''
 
+import operator
+import logging
+import itertools
 
 import numpy as np
 import pandas as pd
-import itertools
 from sklearn.base import BaseEstimator, ClassifierMixin
 from sklearn.metrics.scorer import balanced_accuracy_score
-import operator
-import logging
+
 
 construction_algorithms = ['marginal_fan']
 operator_dict = {
