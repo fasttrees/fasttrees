@@ -1,3 +1,8 @@
+'''
+The :mod:`fasttrees` module includes the fast-and-frugal tree classifier.
+'''
+
+
 __description__ = "A fast and frugal tree classifier for sklearn"
 __author__ = "Dominic Zijlstra, Stefan Bachhofner"
 

@@ -1,13 +1,23 @@
-import numpy as np
-import pandas as pd
-import itertools
-from sklearn.base import BaseEstimator, ClassifierMixin
-from sklearn.metrics.scorer import balanced_accuracy_score
+'''Fast-and-frugal tree classifier
+'''
+
 import operator
 import logging
+import itertools
+
+import numpy as np
+import pandas as pd
+from sklearn.base import BaseEstimator, ClassifierMixin
+from sklearn.metrics.scorer import balanced_accuracy_score
+
 
 construction_algorithms = ['marginal_fan']
-operator_dict = {'<=': operator.le, '>': operator.gt, '==': operator.eq, 'in': lambda val, lst: val in lst}
+operator_dict = {
+    '<=': operator.le,
+    '>': operator.gt,
+    '==': operator.eq,
+    'in': lambda val, lst: val in lst
+}
 
 
 class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
@@ -21,7 +31,8 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
             Specifies the algorithm used to create trees. Currently only supports 'marginal_fan'.
 
         scorer : func, default=sklearn.metrics.scorer.balanced_accuracy_score
-            Specifies the metric to maximize when choosing threshold. Any function that returns higher values for better predictions.
+            Specifies the metric to maximize when choosing threshold. Any function that returns
+            higher values for better predictions.
 
         max_levels : int
             Specifies the maximum number of levels for possible trees.
@@ -45,13 +56,21 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         >>> fc.get_tree()
     """
 
-    def __init__(self, construction_algorithm='marginal_fan', scorer=balanced_accuracy_score, max_levels=4,
-                 stopping_param=.1, max_categories=4, max_cuts=100):
+    def __init__(
+        self,
+        construction_algorithm='marginal_fan',
+        scorer=balanced_accuracy_score,
+        max_levels=4,
+        stopping_param=.1,
+        max_categories=4,
+        max_cuts=100
+    ):
         if construction_algorithm in construction_algorithms:
             self.construction_algorithm = construction_algorithm
         else:
             raise ValueError(
-                'Not a valid construction_algorithm. Possible choices are {}'.format(construction_algorithms))
+                'Not a valid construction_algorithm.'\
+                f'Possible choices are {construction_algorithms}')
 
         self.scorer = scorer
 
@@ -89,7 +108,8 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         Parameters
         ----------
             X : pandas.DataFrame
-                The test samples as a Dataframe with features as columns. Features can be numerical or categorical.
+                The test samples as a Dataframe with features as columns. Features can be
+                numerical or categorical.
             y : pandas.DataFrame
                 The true labels for ``X```, which are real, or binary, outcomes.
 
@@ -101,12 +121,13 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         midx = pd.MultiIndex(levels=[[], []],
                              labels=[[], []],
                              names=['cue_nr', 'threshold_nr'])
-        threshold_df = pd.DataFrame(columns=['feature', 'direction', 'threshold', 'type', self.scorer.__name__],
-                                    index=midx)
+        threshold_df = pd.DataFrame(
+            columns=['feature', 'direction', 'threshold', 'type', self.scorer.__name__],
+            index=midx)
 
         # Get optimal classification threshold for each feature
         for i, col in enumerate(X):
-            logging.debug('Get threshold for {}'.format(col))
+            logging.debug('Get threshold for %s', col)
             j = 0
 
             if X[col].dtype.name == 'category':
@@ -162,9 +183,11 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         Returns
         ----------
             self.thresholds : pandas.DataFrame
-                A dataframe with rows for every feature, with threshold, direction and scorer, sorted by scorer.
+                A dataframe with rows for every feature, with threshold, direction and
+                scorer, sorted by scorer.
         """
-        threshold_df = pd.DataFrame(columns=['feature', 'direction', 'threshold', 'type', self.scorer.__name__])
+        threshold_df = pd.DataFrame(
+            columns=['feature', 'direction', 'threshold', 'type', self.scorer.__name__])
         for cue_nr, cue_df in self.all_thresholds.groupby(level=0):
             idx = cue_df[self.scorer.__name__].idxmax()
             threshold_df.loc[cue_nr, ['feature', 'direction', 'threshold', 'type', self.scorer.__name__]] = cue_df.loc[
@@ -172,7 +195,10 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
 
         threshold_df[self.scorer.__name__] = threshold_df[self.scorer.__name__].astype(float)
 
-        self.thresholds = threshold_df.sort_values(by=self.scorer.__name__, ascending=False).reset_index(drop=True)
+        self.thresholds = (threshold_df
+            .sort_values(by=self.scorer.__name__, ascending=False)
+            .reset_index(drop=True)
+        )
 
     @staticmethod
     def _predict_all(X, cue_df):
@@ -182,7 +208,8 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         Parameters
         ----------
             X : pandas.Dataframe
-                The input samples as a dataframe with features as columns. Features can be numerical or categorical.
+                The input samples as a dataframe with features as columns. Features can be
+                numerical or categorical.
 
             cue_df : pandas.Dataframe
                 A dataframe with ordered features, directions, thresholds, and exists.
@@ -190,11 +217,13 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         Returns
         ----------
             all_predictions : pandas.Series
-                A series with a prediction for every cue in cue_df up to the point where the fast-and-frugal-tree was exited.
+                A series with a prediction for every cue in cue_df up to the point where the
+                fast-and-frugal-tree was exited.
         """
         nr_rows = cue_df.shape[0]
 
-        # could be replaced with logical expression which would not have to be applied row-wise? currently very slow
+        # could be replaced with logical expression which would not have to be applied row-wise?
+        # currently very slow
         def prediction_func(row):
             """
             Makes a prediction for the given feature row.
@@ -255,13 +284,14 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         Parameters
         ----------
             X : pandas.Dataframe
-                The training input samples with features as columns. Features can be numerical or categorical.
+                The training input samples with features as columns. Features can be
+                numerical or categorical.
 
         Returns
         ----------
             Tuple
-                A tuple of length three where the first element are the predictions, the second element are the nr cused used, and the third ond
-                are the fraction used.
+                A tuple of length three where the first element are the predictions, the second
+                element are the nr cused used, and the third ond are the fraction used.
         """
         logging.debug('Predicting ...')
         all_predictions = self._predict_all(X, cue_df)
@@ -284,7 +314,8 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
 
     def _growtrees(self, X, y):
         """
-        Grow all possible trees up to ``self.max_levels``. Levels that classify less than``self.stopping_param`` are pruned.
+        Grow all possible trees up to ``self.max_levels``. Levels that classify less than 
+        ``self.stopping_param`` are pruned.
 
         Parameters
         ----------
@@ -304,9 +335,10 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
                              labels=[[], []],
                              names=['tree', 'idx'])
         tree_df = pd.DataFrame(
-            columns=['feature', 'direction', 'threshold', 'type', self.scorer.__name__, 'fraction_used'], index=midx)
+            columns=['feature', 'direction', 'threshold', 'type', self.scorer.__name__, 'fraction_used'],
+            index=midx)
         for tree in range(2 ** (self.max_levels - 1)):
-            logging.debug('Grow tree {}...'.format(tree))
+            logging.debug('Grow tree %s ...', tree)
             for index, feature_row in relevant_features.iterrows():
                 tree_df['threshold'] = tree_df['threshold'].astype(object)
 
@@ -314,7 +346,8 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
                     (tree, index), ['feature', 'direction', 'threshold', 'type', self.scorer.__name__]] = feature_row
 
                 # exit 0.5 is stop, exit 1 means stop on true, exit 0 means stop on false
-                tree_df.loc[(tree, index), 'exit'] = np.binary_repr(tree, width=self.max_levels)[-1 - index]
+                tree_df.loc[(tree, index), 'exit'] = np.binary_repr(
+                    tree, width=self.max_levels)[-1 - index]
 
             tree_df['exit'] = tree_df['exit'].astype(float)
 
@@ -327,7 +360,7 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
             tree_df.loc[(tree, nr_cues_used - 1), 'exit'] = 0.5
 
             score = self._score(y, predictions)
-            logging.debug('Score is {}...'.format(score))
+            logging.debug('Score is %s ...', score)
             tree_df.loc[tree, self.scorer.__name__] = score
 
         self.all_trees = tree_df
@@ -342,9 +375,9 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
                 The index of the desired tree. Default is None, which returns the best tree.
 
             decision_view : bool, default=True
-                If true, it will return a dataframe in an easily readable form, which can then be used to make a quick decision.
-                If false, it will return the original dataframe with more statistics.
-                The default is ``True``.
+                If true, it will return a dataframe in an easily readable form, which can then
+                be used to make a quick decision. If false, it will return the original dataframe
+                with more statistics. The default is ``True``.
 
         Returns
         ----------
@@ -379,7 +412,8 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         Parameters
         ----------
             X : pandas.Dataframe
-                The training input samples with features as columns. Features can be numerical or categorical.
+                The training input samples with features as columns. Features can be
+                numerical or categorical.
 
             y : pandas.Dataframe
                 The target class labels as real or binary outcomes.
@@ -404,7 +438,8 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         Parameters
         ----------
             X : pandas.DataFrame
-                The input samples as a Dataframe with features as columns. Features can be numerical or categorical.
+                The input samples as a Dataframe with features as columns. Features can be
+                numerical or categorical.
 
             tree_idx : int, default=None
                 The tree to use for the predictions. Default is best tree.
@@ -424,7 +459,8 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         Parameters
         ----------
             X : pandas.DataFrame
-                The test samples as a Dataframe with features as columns. Features can be numerical or categorical.
+                The test samples as a Dataframe with features as columns. Features can be
+                numerical or categorical.
 
             y : pandas.DataFrame, default=None
                 The true labels for ``X```.
