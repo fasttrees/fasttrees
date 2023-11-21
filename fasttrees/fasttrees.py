@@ -127,7 +127,7 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
 
         # Get optimal classification threshold for each feature
         for i, col in enumerate(X):
-            logging.debug('Get threshold for %s' % col)
+            logging.debug('Get threshold for %s', col)
             j = 0
 
             if X[col].dtype.name == 'category':
@@ -338,7 +338,7 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
             columns=['feature', 'direction', 'threshold', 'type', self.scorer.__name__, 'fraction_used'],
             index=midx)
         for tree in range(2 ** (self.max_levels - 1)):
-            logging.debug('Grow tree %s ...' % tree)
+            logging.debug('Grow tree %s ...', tree)
             for index, feature_row in relevant_features.iterrows():
                 tree_df['threshold'] = tree_df['threshold'].astype(object)
 
@@ -360,7 +360,7 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
             tree_df.loc[(tree, nr_cues_used - 1), 'exit'] = 0.5
 
             score = self._score(y, predictions)
-            logging.debug('Score is %s ...' % score)
+            logging.debug('Score is %s ...', score)
             tree_df.loc[tree, self.scorer.__name__] = score
 
         self.all_trees = tree_df
