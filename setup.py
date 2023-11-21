@@ -48,7 +48,7 @@ setup(
         'Tracker': 'https://github.com/dominiczy/fasttrees/issues',
     },
     install_requires=[
-                'numpy',
+                'numpy<=1.19.5',
                 'pandas<=0.25.3',
                 'sklearn<=0.23.2',
                 'logging'
