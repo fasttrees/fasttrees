@@ -9,5 +9,5 @@
 # --------------
 # which folders/files to ignore
 ignore:
-  - "*/tests/.*"
+  - "tests/*"
   - "setup.py"
