@@ -4,6 +4,7 @@
 [![linting: pylint](https://img.shields.io/badge/linting-pylint-yellowgreen)](https://github.com/pylint-dev/pylint)
 ![pyling: workflow](https://github.com/fasttrees/fasttrees/actions/workflows/pylint.yml/badge.svg)
 [![Upload Python Package](https://github.com/fasttrees/fasttrees/actions/workflows/python-publish.yml/badge.svg)](https://github.com/fasttrees/fasttrees/actions/workflows/python-publish.yml)
+[![codecov](https://codecov.io/github/fasttrees/fasttrees/graph/badge.svg?token=XCJQ3NXKVT)](https://codecov.io/github/fasttrees/fasttrees)
 [![Python package](https://github.com/fasttrees/fasttrees/actions/workflows/python-package.yml/badge.svg)](https://github.com/fasttrees/fasttrees/actions/workflows/python-package.yml)
 
 
