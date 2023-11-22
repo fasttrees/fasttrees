@@ -2,9 +2,9 @@
 ![PyPI - Version](https://img.shields.io/pypi/v/fasttrees)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/fasttrees)
 [![linting: pylint](https://img.shields.io/badge/linting-pylint-yellowgreen)](https://github.com/pylint-dev/pylint)
-![pyling: workflow](https://github.com/dominiczy/fasttrees/actions/workflows/pylint.yml/badge.svg)
-[![Upload Python Package](https://github.com/dominiczy/fasttrees/actions/workflows/python-publish.yml/badge.svg)](https://github.com/dominiczy/fasttrees/actions/workflows/python-publish.yml)
-[![Python package](https://github.com/dominiczy/fasttrees/actions/workflows/python-package.yml/badge.svg)](https://github.com/dominiczy/fasttrees/actions/workflows/python-package.yml)
+![pyling: workflow](https://github.com/fasttrees/fasttrees/actions/workflows/pylint.yml/badge.svg)
+[![Upload Python Package](https://github.com/fasttrees/fasttrees/actions/workflows/python-publish.yml/badge.svg)](https://github.com/fasttrees/fasttrees/actions/workflows/python-publish.yml)
+[![Python package](https://github.com/fasttrees/fasttrees/actions/workflows/python-package.yml/badge.svg)](https://github.com/fasttrees/fasttrees/actions/workflows/python-package.yml)
 
 
 # fasttrees
