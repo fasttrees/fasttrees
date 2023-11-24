@@ -10,7 +10,7 @@ from typing import Callable, Tuple
 import numpy as np
 import pandas as pd
 from sklearn.base import BaseEstimator, ClassifierMixin
-from sklearn.metrics.scorer import balanced_accuracy_score
+from sklearn.metrics.scorer import _BaseScorer, balanced_accuracy_score
 
 
 
@@ -70,21 +70,11 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         max_categories: int=4,
         max_cuts: int=100
     ) -> None:
-        if construction_algorithm in self._construction_algorithms:
-            self.construction_algorithm = construction_algorithm
-        else:
-            raise ValueError(
-                'Not a valid construction_algorithm.'\
-                f'Possible choices are {cls.construction_algorithms}')
-
+        self.construction_algorithm = construction_algorithm
         self.scorer = scorer
-
-        self.max_levels = int(max_levels)
-
-        self.stopping_param = float(stopping_param)
-
+        self.max_levels = max_levels
+        self.stopping_param = stopping_param
         self.max_categories = max_categories
-
         self.max_cuts = max_cuts
 
     def _score(self, y: pd.DataFrame, predictions: pd.DataFrame) -> float:
@@ -431,11 +421,46 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
             self : FastFrugalTreeClassifier
                 Fitted estimator.
         """
+        self._validate_hyperparameters()
+
         self._get_thresholds(X, y)
         self._get_best_thresholds()
         self._growtrees(X, y)
         self.best_tree = self.get_tree()
         return self
+
+    def _validate_hyperparameters(self) -> None:
+        # validate types
+        if not isinstance(self.construction_algorithm, str):
+            raise ValueError(f'construction_algorithm is not a str, '\
+                             f'got type {type(self.construction_algorithm)}')
+
+        if not isinstance(self.scorer, Callable):
+            raise ValueError(f'scorer must be a callable, '\
+                             f'got type {self.scorer}')
+
+        if not isinstance(self.max_levels, int):
+            raise ValueError(f'max_levels must be an int, '\
+                             f'got type {type(self.max_levels)}')
+
+        if not isinstance(self.stopping_param, float):
+            raise ValueError(f'stopping_param must be a float, '\
+                             f'got type {type(self.stopping_param)}')
+
+        if not isinstance(self.max_categories, int):
+            raise ValueError(f'max_categories must be an int, '\
+                             f'got type {type(self.max_categories)}')
+
+        if not isinstance(self.max_cuts, int):
+            raise ValueError(f'max_cuts must be an int, '\
+                             f'got type {type(self.max_cuts)}')
+
+
+        # validate input range
+        if self.construction_algorithm not in self._construction_algorithms:
+            raise ValueError(f'Construction algorithm {self.construction_algorithm} is not '\
+                             f'supported. Supported construction algorithms are '\
+                             f'{self._construction_algorithms}')
 
     def predict(self, X: pd.DataFrame, tree_idx: int=None) -> pd.DataFrame:
         """
