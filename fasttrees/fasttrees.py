@@ -205,8 +205,7 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
             .reset_index(drop=True)
         )
 
-    @staticmethod
-    def _predict_all(X: pd.DataFrame, cue_df: pd.DataFrame) -> pd.Series:
+    def _predict_all(self, X: pd.DataFrame, cue_df: pd.DataFrame) -> pd.Series:
         """
         Make predictions for ``X`` given ``cue_df``.
 
