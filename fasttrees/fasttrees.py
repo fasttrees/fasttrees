@@ -1,9 +1,11 @@
 '''Fast-and-frugal tree classifier
 '''
+from __future__ import annotations
 
 import operator
 import logging
 import itertools
+from typing import Callable, Tuple
 
 import numpy as np
 import pandas as pd
@@ -58,13 +60,13 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
 
     def __init__(
         self,
-        construction_algorithm='marginal_fan',
-        scorer=balanced_accuracy_score,
-        max_levels=4,
-        stopping_param=.1,
-        max_categories=4,
-        max_cuts=100
-    ):
+        construction_algorithm: str='marginal_fan',
+        scorer: Callable[[], float]=balanced_accuracy_score,
+        max_levels: int=4,
+        stopping_param: float=.1,
+        max_categories: int=4,
+        max_cuts: int=100
+    ) -> None:
         if construction_algorithm in construction_algorithms:
             self.construction_algorithm = construction_algorithm
         else:
@@ -82,7 +84,7 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
 
         self.max_cuts = max_cuts
 
-    def _score(self, y, predictions):
+    def _score(self, y: pd.DataFrame, predictions: pd.DataFrame) -> float:
         """
         Return the score on the given ``y`` and ``predictions``.
 
@@ -101,7 +103,7 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         """
         return self.scorer(y, predictions)
 
-    def _get_thresholds(self, X, y):
+    def _get_thresholds(self, X: pd.DataFrame, y: pd.DataFrame) -> pd.DataFrame:
         """
         Get possible thresholds and directions for each feature.
 
@@ -201,7 +203,7 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         )
 
     @staticmethod
-    def _predict_all(X, cue_df):
+    def _predict_all(X: pd.DataFrame, cue_df: pd.DataFrame) -> pd.Series:
         """
         Make predictions for ``X`` given ``cue_df``.
 
@@ -261,7 +263,7 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         return all_predictions
 
     @staticmethod
-    def _get_final_prediction(all_predictions):
+    def _get_final_prediction(all_predictions: pd.DataFrame) -> pd.DataFrame:
         """
         Get final (latest non-null) predictions from all cue predictions.
 
@@ -277,7 +279,11 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         """
         return all_predictions.ffill(axis=1).iloc[:, -1]
 
-    def _predict_and_prune(self, X, cue_df):
+    def _predict_and_prune(
+            self,
+            X: pd.DataFrame,
+            cue_df: pd.DataFrame
+        ) -> Tuple:
         """
         Make predictions and prune features that classify less than ``self.stopping_param``.
 
@@ -312,7 +318,7 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
 
         return predictions, nr_cues_used, fraction_used
 
-    def _growtrees(self, X, y):
+    def _growtrees(self, X: pd.DataFrame, y: pd.DataFrame) -> pd.DataFrame:
         """
         Grow all possible trees up to ``self.max_levels``. Levels that classify less than 
         ``self.stopping_param`` are pruned.
@@ -365,7 +371,7 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
 
         self.all_trees = tree_df
 
-    def get_tree(self, idx=None, decision_view=True):
+    def get_tree(self, idx: int=None, decision_view: bool=True) -> pd.DataFrame:
         """
         Get tree with index ``idx`` from all trees.
 
@@ -405,7 +411,7 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
 
         return tree_df
 
-    def fit(self, X, y):
+    def fit(self, X: pd.DataFrame, y: pd.DataFrame) -> FastFrugalTreeClassifier:
         """
         Builds the fast and frugal tree classifier from the training set (X, y).
 
@@ -429,7 +435,7 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         self.best_tree = self.get_tree()
         return self
 
-    def predict(self, X, tree_idx=None):
+    def predict(self, X: pd.DataFrame, tree_idx: int=None) -> pd.DataFrame:
         """
         Predict class value for ``X``.
 
@@ -452,7 +458,7 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         all_predictions = self._predict_all(X, self.get_tree(tree_idx, decision_view=False))
         return self._get_final_prediction(all_predictions)
 
-    def score(self, X, y=None):
+    def score(self, X: pd.DataFrame, y: pd.DataFrame=None) -> float:
         """
         Predicts for data X. Scores predictions against y.
 
