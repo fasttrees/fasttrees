@@ -13,13 +13,7 @@ from sklearn.base import BaseEstimator, ClassifierMixin
 from sklearn.metrics.scorer import balanced_accuracy_score
 
 
-construction_algorithms = ['marginal_fan']
-operator_dict = {
-    '<=': operator.le,
-    '>': operator.gt,
-    '==': operator.eq,
-    'in': lambda val, lst: val in lst
-}
+
 
 
 class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
@@ -58,6 +52,15 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         >>> fc.get_tree()
     """
 
+    _construction_algorithms = ['marginal_fan']
+
+    _operator_dict = {
+        '<=': operator.le,
+        '>': operator.gt,
+        '==': operator.eq,
+        'in': lambda val, lst: val in lst
+    }
+
     def __init__(
         self,
         construction_algorithm: str='marginal_fan',
@@ -67,12 +70,12 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         max_categories: int=4,
         max_cuts: int=100
     ) -> None:
-        if construction_algorithm in construction_algorithms:
+        if construction_algorithm in self._construction_algorithms:
             self.construction_algorithm = construction_algorithm
         else:
             raise ValueError(
                 'Not a valid construction_algorithm.'\
-                f'Possible choices are {construction_algorithms}')
+                f'Possible choices are {cls.construction_algorithms}')
 
         self.scorer = scorer
 
@@ -160,7 +163,7 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
 
                 # try smaller than and bigger than for every unique value in column
                 for val in test_values:
-                    for direction, operator in {op: operator_dict[op] for op in ['<=', '>']}.items():
+                    for direction, operator in {op: self._operator_dict[op] for op in ['<=', '>']}.items():
                         predictions = operator(X[col], val)
                         metric = self._score(y, predictions)
 
@@ -245,7 +248,7 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
             """
             ret_ser = pd.Series()
             for index, cue_row in cue_df.iterrows():
-                operator = operator_dict[cue_row['direction']]
+                operator = self._operator_dict[cue_row['direction']]
                 outcome = operator(row[cue_row['feature']], cue_row['threshold'])
 
                 # store prediction in series
