@@ -2,8 +2,8 @@
 Testing for Fast-And-Frugal tree module (fasttrees)
 '''
 
-
 from sklearn import datasets, model_selection
+from sklearn.utils.estimator_checks import check_estimator
 import pytest
 
 from fasttrees.fasttrees import FastFrugalTreeClassifier
@@ -12,6 +12,13 @@ from fasttrees.fasttrees import FastFrugalTreeClassifier
 
 X_iris, y_iris = datasets.load_iris(as_frame=True, return_X_y=True)
 classification_dataset = [(X_iris, y_iris)]
+
+
+@pytest.mark.parametrize("estimator", [FastFrugalTreeClassifier])
+def test_estimator(estimator):
+    '''Test fast-and-frugal classifiers' compliance with scikit-learns estimator interface.
+    '''
+    return check_estimator(estimator)
 
 
 @pytest.mark.parametrize("X,y", classification_dataset)
