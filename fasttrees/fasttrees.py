@@ -79,6 +79,7 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         self.max_cuts = max_cuts
 
         self.thresholds = None
+        self.all_thresholds = None
         self.all_trees = None
         self.best_tree = None
 
