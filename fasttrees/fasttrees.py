@@ -78,6 +78,10 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         self.max_categories = max_categories
         self.max_cuts = max_cuts
 
+        self.thresholds = None
+        self.all_trees = None
+        self.best_tree = None
+
     def _score(self, y: pd.DataFrame, predictions: pd.DataFrame) -> float:
         """
         Return the score on the given ``y`` and ``predictions``.
