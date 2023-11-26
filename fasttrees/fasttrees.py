@@ -87,7 +87,7 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         self.X_ = None
         self.y_ = None
 
-    def _score(self, y: pd.DataFrame, predictions: pd.DataFrame) -> float:
+    def _score(self, y: pd.DataFrame, predictions: pd.DataFrame, sample_weight=None) -> float:
         """
         Return the score on the given ``y`` and ``predictions``.
 
@@ -99,12 +99,15 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
             predictions : pandas.DataFrame
                 The predicted outcomes.
 
+            sample_weight : array-like of shape (n_samples,), default=None
+                Sample weights.
+
         Returns
         ----------
             score : float
                 The score w.r.t. ``y``.
         """
-        return self.scorer(y, predictions)
+        return self.scorer(y, predictions, sample_weight=sample_weight)
 
     def _get_thresholds(self, X: pd.DataFrame, y: pd.DataFrame) -> pd.DataFrame:
         """
@@ -499,7 +502,7 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         all_predictions = self._predict_all(X, self.get_tree(tree_idx, decision_view=False))
         return self._get_final_prediction(all_predictions)
 
-    def score(self, X: pd.DataFrame, y: pd.DataFrame=None) -> float:
+    def score(self, X: pd.DataFrame, y: pd.DataFrame=None, sample_weight=None) -> float:
         """
         Predicts for data X. Scores predictions against y.
 
@@ -512,9 +515,12 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
             y : pandas.DataFrame, default=None
                 The true labels for ``X```.
 
+            sample_weight : array-like of shape (n_samples,), default=None
+                Sample weights.
+
         Returns
         ----------
             score : float
                 The score of ``self.predict(X)`` w.r.t ``y``.
         """
-        return self._score(y, self.predict(X))
+        return self._score(y, self.predict(X), sample_weight=None)
