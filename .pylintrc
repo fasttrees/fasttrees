@@ -2,10 +2,5 @@
 good-names=
     X,
     X_iris_train,
-    X_iris_test
-
-[VARIABLES]
-additional-builtins=
-    classes_,
-    X_,
-    y_
+    X_iris_test,
+    X_
