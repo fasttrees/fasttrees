@@ -237,8 +237,8 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
             """
             Makes a prediction for the given feature row.
 
-            Look up the row's features in order of their score. Exit if the threshold is met and the tree exits on True,
-            or if the threshold is not met and the tree exits on False.
+            Look up the row's features in order of their score. Exit if the threshold is met and
+            the tree exits on True, or if the threshold is not met and the tree exits on False.
 
             Parameters
             ----------
