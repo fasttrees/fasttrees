@@ -11,7 +11,7 @@ import numpy as np
 import pandas as pd
 from sklearn.base import BaseEstimator, ClassifierMixin
 from sklearn.utils.multiclass import unique_labels
-from sklearn.metrics.scorer import balanced_accuracy_score
+from sklearn.metrics._scorer import balanced_accuracy_score
 
 
 
