@@ -49,6 +49,7 @@ setup(
         'Source': 'https://github.com/dominiczy/fasttrees',
         'Tracker': 'https://github.com/dominiczy/fasttrees/issues',
     },
+    python_requires='>=3.8',
     install_requires=[
                 'numpy<=1.19.5',
                 'pandas<=0.25.3',
