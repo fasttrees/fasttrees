@@ -16,7 +16,7 @@ from sklearn.metrics._scorer import balanced_accuracy_score
 
 
 
-
+# pylint: disable=too-many-instance-attributes
 class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
     """Fast-and-Frugal-Tree classifier
 
