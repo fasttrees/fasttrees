@@ -332,7 +332,8 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         Parameters
         ----------
             X : pandas.Dataframe
-                The training input samples with features as columns. Features can be numerical or categorical.
+                The training input samples with features as columns. Features can be numerical
+                or categorical.
 
             y : pandas.Dataframe
                 The target class labels as real or binary outcomes.
