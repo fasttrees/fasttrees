@@ -348,8 +348,10 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
                              labels=[[], []],
                              names=['tree', 'idx'])
         tree_df = pd.DataFrame(
-            columns=['feature', 'direction', 'threshold', 'type', self.scorer.__name__, 'fraction_used'],
+            columns=['feature', 'direction', 'threshold',
+                     'type', self.scorer.__name__, 'fraction_used'],
             index=midx)
+
         for tree in range(2 ** (self.max_levels - 1)):
             logging.debug('Grow tree %s ...', tree)
             for index, feature_row in relevant_features.iterrows():
