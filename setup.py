@@ -7,7 +7,7 @@ import fasttrees
 def get_long_description():
     ''' returns the content of the README.md file as a string.
     '''
-    from os import path
+    from os import path # pylint: disable=import-outside-toplevel
 
     this_directory = path.abspath(path.dirname(__file__))
     with open(path.join(this_directory, 'README.md'), mode='r', encoding='utf-8') as f:
