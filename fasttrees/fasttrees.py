@@ -358,7 +358,9 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
                 tree_df['threshold'] = tree_df['threshold'].astype(object)
 
                 tree_df.loc[
-                    (tree, index), ['feature', 'direction', 'threshold', 'type', self.scorer.__name__]] = feature_row
+                    (tree, index),
+                    ['feature', 'direction', 'threshold', 'type', self.scorer.__name__]
+                ] = feature_row
 
                 # exit 0.5 is stop, exit 1 means stop on true, exit 0 means stop on false
                 tree_df.loc[(tree, index), 'exit'] = np.binary_repr(
