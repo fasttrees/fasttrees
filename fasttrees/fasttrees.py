@@ -166,7 +166,8 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
 
                 # try smaller than and bigger than for every unique value in column
                 for val in test_values:
-                    for direction, _operator in {op: self._operator_dict[op] for op in ['<=', '>']}.items():
+                    for direction, _operator in {
+                            op: self._operator_dict[op] for op in ['<=', '>']}.items():
                         predictions = _operator(X[col], val)
                         metric = self._score(y, predictions)
 
