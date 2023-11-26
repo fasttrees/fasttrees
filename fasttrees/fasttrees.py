@@ -163,8 +163,8 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
 
                 # try smaller than and bigger than for every unique value in column
                 for val in test_values:
-                    for direction, operator in {op: self._operator_dict[op] for op in ['<=', '>']}.items():
-                        predictions = operator(X[col], val)
+                    for direction, _operator in {op: self._operator_dict[op] for op in ['<=', '>']}.items():
+                        predictions = _operator(X[col], val)
                         metric = self._score(y, predictions)
 
                         threshold_df.at[(i, j), 'threshold'] = val
@@ -247,8 +247,8 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
             """
             ret_ser = pd.Series()
             for index, cue_row in cue_df.iterrows():
-                operator = self._operator_dict[cue_row['direction']]
-                outcome = operator(row[cue_row['feature']], cue_row['threshold'])
+                _operator = self._operator_dict[cue_row['direction']]
+                outcome = _operator(row[cue_row['feature']], cue_row['threshold'])
 
                 # store prediction in series
                 ret_ser.set_value(index, outcome)
