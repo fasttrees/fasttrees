@@ -397,13 +397,13 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         tree_df = self.all_trees.loc[idx]
 
         if decision_view:
-            def exit_action(exit):
+            def exit_action(exit_value):
                 ret_ser = pd.Series()
                 ret_ser.set_value('IF YES', '↓')
                 ret_ser.set_value('IF NO', '↓')
-                if exit <= 0.5:
+                if exit_value <= 0.5:
                     ret_ser.set_value('IF NO', 'decide NO')
-                if exit >= 0.5:
+                if exit_value >= 0.5:
                     ret_ser.set_value('IF YES', 'decide YES')
                 return ret_ser
 
