@@ -255,7 +255,6 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
 
                 # exit tree if outcome is exit or last cue reached
                 if (cue_row['exit'] == int(outcome)) or (index + 1 == nr_rows):
-                    cues_used = index + 1
                     break
 
             # return predictions for cues used
