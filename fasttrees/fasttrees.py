@@ -199,8 +199,9 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
             columns=['feature', 'direction', 'threshold', 'type', self.scorer.__name__])
         for cue_nr, cue_df in self.all_thresholds.groupby(level=0):
             idx = cue_df[self.scorer.__name__].idxmax()
-            threshold_df.loc[cue_nr, ['feature', 'direction', 'threshold', 'type', self.scorer.__name__]] = cue_df.loc[
-                idx]
+            threshold_df.loc[cue_nr,
+                             ['feature', 'direction', 'threshold', 'type', self.scorer.__name__
+                            ]] = cue_df.loc[idx]
 
         threshold_df[self.scorer.__name__] = threshold_df[self.scorer.__name__].astype(float)
 
