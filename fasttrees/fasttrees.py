@@ -123,7 +123,7 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
 
         Returns
         ----------
-            self.all_thresholds : pandas.DataFrame
+            self.all_thresholds_ : pandas.DataFrame
                 A dataframe with rows for every feature, with threshold, direction and scorer.
         """
         midx = pd.MultiIndex(levels=[[], []],
@@ -183,7 +183,7 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         threshold_df[self.scorer.__name__] = threshold_df[self.scorer.__name__].astype(float)
 
         # sort features by their score
-        self.all_thresholds = threshold_df
+        self.all_thresholds_ = threshold_df
 
     def _get_best_thresholds(self):
         """
@@ -191,13 +191,13 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
 
         Returns
         ----------
-            self.thresholds : pandas.DataFrame
+            self.thresholds_ : pandas.DataFrame
                 A dataframe with rows for every feature, with threshold, direction and
                 scorer, sorted by scorer.
         """
         threshold_df = pd.DataFrame(
             columns=['feature', 'direction', 'threshold', 'type', self.scorer.__name__])
-        for cue_nr, cue_df in self.all_thresholds.groupby(level=0):
+        for cue_nr, cue_df in self.all_thresholds_.groupby(level=0):
             idx = cue_df[self.scorer.__name__].idxmax()
             threshold_df.loc[cue_nr,
                              ['feature', 'direction', 'threshold', 'type', self.scorer.__name__
@@ -205,7 +205,7 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
 
         threshold_df[self.scorer.__name__] = threshold_df[self.scorer.__name__].astype(float)
 
-        self.thresholds = (threshold_df
+        self.thresholds_ = (threshold_df
             .sort_values(by=self.scorer.__name__, ascending=False)
             .reset_index(drop=True)
         )
@@ -344,10 +344,10 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
 
         Returns
         ----------
-            self.all_trees : pandas.DataFrame
+            self.all_trees_ : pandas.DataFrame
                 A dataframe with all trees grown.
         """
-        relevant_features = self.thresholds.head(self.max_levels)
+        relevant_features = self.thresholds_.head(self.max_levels)
         midx = pd.MultiIndex(levels=[[], []],
                              labels=[[], []],
                              names=['tree', 'idx'])
@@ -384,7 +384,7 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
             logging.debug('Score is %s ...', score)
             tree_df.loc[tree, self.scorer.__name__] = score
 
-        self.all_trees = tree_df
+        self.all_trees_ = tree_df
 
     def get_tree(self, idx: int=None, decision_view: bool=True) -> pd.DataFrame:
         """
@@ -406,9 +406,9 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
                 The dataframe of the tree with index ``idx``.
         """
         if idx is None:
-            idx = self.all_trees[self.scorer.__name__].idxmax()[0]
+            idx = self.all_trees_[self.scorer.__name__].idxmax()[0]
 
-        tree_df = self.all_trees.loc[idx]
+        tree_df = self.all_trees_.loc[idx]
 
         if decision_view:
             def exit_action(exit_value):
@@ -459,11 +459,12 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
                              f'the training data has the {len(unique_labels(y))} labels '\
                              f'{unique_labels(y)}')
 
+        print(X, y)
 
         self._get_thresholds(X, y)
         self._get_best_thresholds()
         self._growtrees(X, y)
-        self.best_tree = self.get_tree()
+        self.best_tree_ = self.get_tree()
 
         # store the training data set seen during training
         self.classes_ = unique_labels(y)
