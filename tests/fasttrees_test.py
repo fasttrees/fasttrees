@@ -34,5 +34,12 @@ def test_classification(X, y):
     fftc = FastFrugalTreeClassifier()
     fftc.fit(X_iris_train, y_iris_train)
 
+    assert hasattr(fftc, 'classes_')
+    assert hasattr(fftc, 'X_')
+    assert hasattr(fftc, 'y_')
+
+    y_pred_iris_train = fftc.predict(X)
+    assert y_pred_iris_train.shape == (X.shape[0],)
+
     assert fftc.score(X_iris_train, y_iris_train) > 0.6
     assert fftc.score(X_iris_test, y_iris_test) > 0.6
