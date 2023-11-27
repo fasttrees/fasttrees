@@ -221,6 +221,10 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
                 A series with a prediction for every cue in cue_df up to the point where the
                 fast-and-frugal-tree was exited.
         """
+        if isinstance(X, np.ndarray):
+            X = pd.DataFrame(X)
+            X.columns = [f'A{id}' for id in X.columns]
+
         nr_rows = cue_df.shape[0]
 
         # could be replaced with logical expression which would not have to be applied row-wise?
@@ -434,6 +438,14 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         """
         self._validate_hyperparameters()
 
+        if isinstance(X, np.ndarray):
+            X = pd.DataFrame(X)
+            X.columns = [f'A{id}' for id in X.columns]
+
+        if isinstance(y, np.ndarray):
+            y = pd.DataFrame(y)
+            y.columns = ['y']
+
         self._get_thresholds(X, y)
         self._get_best_thresholds()
         self._growtrees(X, y)
@@ -500,6 +512,10 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         """
         check_is_fitted(self, ['X_', 'y_'])
 
+        if isinstance(X, np.ndarray):
+            X = pd.DataFrame(X)
+            X.columns = [f'A{id}' for id in X.columns]
+
         all_predictions = self._predict_all(X, self.get_tree(tree_idx, decision_view=False))
         return self._get_final_prediction(all_predictions)
 
@@ -524,4 +540,12 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
             score : float
                 The score of ``self.predict(X)`` w.r.t ``y``.
         """
+        if isinstance(X, np.ndarray):
+            X = pd.DataFrame(X)
+            X.columns = [f'A{id}' for id in X.columns]
+
+        if isinstance(y, np.ndarray):
+            y = pd.DataFrame(y)
+            y.columns = ['y']
+
         return self._score(y, self.predict(X), sample_weight=None)
