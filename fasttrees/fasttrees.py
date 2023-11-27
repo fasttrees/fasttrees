@@ -79,6 +79,14 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         self.max_categories = max_categories
         self.max_cuts = max_cuts
 
+    def _more_tags(self):
+        """Add tags to categories the classifier, which is used by sklearn tests,
+        e.g. to decide which tests to run.
+        """
+        return {
+            'binary_only': True
+        }
+
     def _score(self, y: pd.DataFrame, predictions: pd.DataFrame, sample_weight=None) -> float:
         """
         Return the score on the given ``y`` and ``predictions``.
