@@ -454,6 +454,12 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
             y = pd.DataFrame(y)
             y.columns = ['y']
 
+        if len(unique_labels(y)) > 2:
+            raise ValueError(f'Fast and frugal trees are binary classification models, but '\
+                             f'the training data has the {len(unique_labels(y))} labels '\
+                             f'{unique_labels(y)}')
+
+
         self._get_thresholds(X, y)
         self._get_best_thresholds()
         self._growtrees(X, y)
