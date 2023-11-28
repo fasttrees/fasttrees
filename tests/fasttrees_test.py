@@ -32,7 +32,7 @@ def test_classification(X, y):
     For the given random state on the iris data set, the score should be higher than 0.6 for the
     train and test set.
     '''
-    y = y.apply(lambda entry: True if entry in [0, 1] else False).astype(bool)
+    y = y.apply(lambda entry: entry in [0, 1]).astype(bool)
 
     X_iris_train, X_iris_test, y_iris_train, y_iris_test = model_selection.train_test_split(
         X, y, test_size=0.4, random_state=42)
