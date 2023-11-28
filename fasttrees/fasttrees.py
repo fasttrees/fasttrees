@@ -374,7 +374,7 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
 
             predictions, nr_cues_used, fraction_used = self._predict_and_prune(X, tree_df.loc[tree])
 
-            for i in range(nr_cues_used, self.max_levels):
+            for i in range(nr_cues_used, len(relevant_features)):
                 tree_df.drop(index=(tree, i), inplace=True)
 
             tree_df.loc[tree, 'fraction_used'] = fraction_used.values
