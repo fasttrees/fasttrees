@@ -562,3 +562,33 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
             y.columns = ['y']
 
         return self._score(y, self.predict(X), sample_weight=None)
+
+    def in_words(self, idx: int=None) -> str:
+        '''``in_words`` generates a verbal description of the fast-and-frugal tree (FFT) from the
+        fast-and-frugal tree with index ``idx``.
+
+        Parameters
+        ----------
+            idx : int, Default=None
+                The index of the desired tree. Default is None, which selects the best tree.
+
+        Returns
+        -------
+            words : str.
+                A string describing the tree in words.
+        '''
+        words = ''
+
+        for row in self.get_tree(idx=idx, decision_view=True).itertuples(index=False):
+            if row[4] != '↓' and row[0] == '↓':
+                words += f'If {row[1]} {row[2]} {row[3]}, '\
+                         f'{row[4]}\n'
+            else:
+                words += f'If not {row[1]} {row[2]} {row[3]}, '\
+                         f'{row[0]}\n'
+
+            if row[0] != '↓' and row[4] != '↓':
+                words += f'If {row[1]} {row[2]} {row[3]}, '\
+                         f'{row[0]}, otherwise, {row[4]}\n'
+
+        return words
