@@ -65,6 +65,12 @@ def test_classification_heart_disease():
     })
     df_expected.index.name = 'idx'
 
+    words_expected = "If thal in ('fd', 'rd'), decide YES\n"\
+                     "If not cp in ('a',), decide NO\n"\
+                     "If not ca in ('1', '2', '3'), decide NO\n"\
+                     "If ca in ('1', '2', '3'), decide NO, otherwise, decide YES\n"
+
+
     df_train = pd.read_csv(
         pathlib.Path('./data/heartdisease_train.csv'),
         dtype={
@@ -92,5 +98,8 @@ def test_classification_heart_disease():
     y_pred = fftc.predict(X)
     assert y_pred.shape == (X.shape[0],)
 
-    pd.testing.assert_frame_equal(fftc.get_tree().astype({'threshold': str}),
-                                  df_expected)
+    pd.testing.assert_frame_equal(
+        fftc.get_tree().astype({'threshold': str}),
+        df_expected)
+
+    assert fftc.in_words() == words_expected
