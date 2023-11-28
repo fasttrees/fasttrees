@@ -2,11 +2,11 @@
 Testing for Fast-And-Frugal tree module (fasttrees)
 '''
 
+import pathlib
+
 from sklearn import datasets, model_selection
 from sklearn.utils.estimator_checks import check_estimator
 import pytest
-
-import pathlib
 
 import pandas as pd
 
