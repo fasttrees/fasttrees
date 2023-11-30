@@ -465,8 +465,12 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
             X.columns = [f'A{id}' for id in X.columns]
 
         if isinstance(y, np.ndarray):
+            y = y.astype(str) if y.dtype == object else y
+
             y = pd.DataFrame(y)
             y.columns = ['y']
+
+
 
         if len(unique_labels(y)) > 2:
             raise ValueError(f'Fast and frugal trees are binary classification models, but '\
