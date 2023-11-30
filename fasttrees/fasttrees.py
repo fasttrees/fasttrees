@@ -481,6 +481,7 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         if len(unique_labels(y)) == 1:
             raise ValueError('Only one class in training data.')
 
+
         self._get_thresholds(X, y)
         self._get_best_thresholds()
         self._growtrees(X, y)
