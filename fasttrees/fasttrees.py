@@ -448,6 +448,15 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
 
         check_X_y(X, y, dtype=None, accept_sparse=False)
 
+        try:
+            if not isinstance(X, pd.DataFrame):
+                X = np.array(X)
+
+            if not isinstance(y, pd.DataFrame):
+                y = np.array(y)
+        except:
+            raise ValueError('Failed to convert X or Y to numpy arrays')
+
 
         if isinstance(X, np.ndarray):
             X = X.astype(np.float) if X.dtype == np.object else X
@@ -530,6 +539,12 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         """
         check_is_fitted(self, ['X_', 'y_'])
         check_array(X, dtype=None, accept_sparse=True)
+
+        try:
+            if not isinstance(X, pd.DataFrame):
+                X = np.array(X)
+        except:
+            raise ValueError('Failed to convert X to numpy arrays')
 
         if isinstance(X, np.ndarray):
             X = pd.DataFrame(X)
