@@ -11,7 +11,7 @@ import numpy as np
 import pandas as pd
 from sklearn.base import BaseEstimator, ClassifierMixin
 from sklearn.utils.multiclass import unique_labels
-from sklearn.utils.validation import check_is_fitted
+from sklearn.utils.validation import check_is_fitted, check_X_y
 from sklearn.metrics._scorer import balanced_accuracy_score
 
 
@@ -445,6 +445,10 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
                 Fitted estimator.
         """
         self._validate_hyperparameters()
+
+        check_X_y(X, y, dtype=None, accept_sparse=False)
+
+
 
         if isinstance(X, np.ndarray):
             X = pd.DataFrame(X)
