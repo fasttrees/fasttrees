@@ -459,7 +459,7 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
 
 
         if isinstance(X, np.ndarray):
-            X = X.astype(np.float) if X.dtype == np.object else X
+            X = X.astype(np.float) if X.dtype == object else X
 
             X = pd.DataFrame(X)
             X.columns = [f'A{id}' for id in X.columns]
