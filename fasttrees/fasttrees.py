@@ -465,7 +465,8 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
             X.columns = [f'A{id}' for id in X.columns]
 
         if isinstance(y, np.ndarray):
-            y = y.astype(str) if y.dtype == object else y
+            if y.dtype == object:
+                raise ValueError('Unknown label type for y, please change type of y.')
 
             y = pd.DataFrame(y)
             y.columns = ['y']
