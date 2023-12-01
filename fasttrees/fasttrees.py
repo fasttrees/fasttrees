@@ -594,7 +594,7 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         return self._score(y, self.predict(X), sample_weight=None)
 
     def in_words(self, idx: int=None) -> str:
-        '''``in_words`` generates a verbal description of the fast-and-frugal tree (FFT) from the
+        """``in_words`` generates a verbal description of the fast-and-frugal tree (FFT) from the
         fast-and-frugal tree with index ``idx``.
 
         Parameters
@@ -606,7 +606,7 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         -------
             words : str.
                 A string describing the tree in words.
-        '''
+        """
         words = ''
 
         for row in self.get_tree(idx=idx, decision_view=True).itertuples(index=False):
