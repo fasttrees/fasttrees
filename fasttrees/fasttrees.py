@@ -387,8 +387,10 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         self.all_trees_ = tree_df
 
     def get_tree(self, idx: int=None, decision_view: bool=True) -> pd.DataFrame:
-        """
-        Get tree with index ``idx`` from all trees.
+        """Get tree with index ``idx`` from all trees.
+
+        Retrieves the tree with index ``idx``, which is especially useful if the predictions
+        will be carried out by humans, or communication purposes, e.g. presentations.
 
         Parameters
         ----------
