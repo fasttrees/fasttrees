@@ -481,16 +481,23 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         if len(unique_labels(y)) == 1:
             raise ValueError('Only one class in training data.')
 
+        y_unique = unique_labels(y)
+        _y_map = {y_unique[0]: False, y_unique[1]: True}
+        _y_map_rev = {value: key for key, value in _y_map.items()}
+        _y = np.array([_y_map[el] for el in y['y']])
 
-        self._get_thresholds(X, y)
+        self._get_thresholds(X, _y)
         self._get_best_thresholds()
-        self._growtrees(X, y)
+        self._growtrees(X, _y)
         self.best_tree_ = self.get_tree()
 
         # store the training data set seen during training
         self.classes_ = unique_labels(y)
         self.X_ = X
         self.y_ = y
+        self._y = _y
+        self._y_map = _y_map
+        self._y_map_rev = _y_map_rev
         return self
 
     def _validate_hyperparameters(self) -> None:
@@ -560,7 +567,8 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
             X.columns = [f'A{id}' for id in X.columns]
 
         all_predictions = self._predict_all(X, self.get_tree(tree_idx, decision_view=False))
-        return self._get_final_prediction(all_predictions)
+        final_prediction = self._get_final_prediction(all_predictions)
+        return np.array([self._y_map_rev[el] for el in final_prediction])
 
     def score(self, X: pd.DataFrame, y: pd.DataFrame=None, sample_weight=None) -> float:
         """
