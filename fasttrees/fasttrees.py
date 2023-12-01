@@ -563,6 +563,11 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
             X = pd.DataFrame(X)
             X.columns = [f'A{id}' for id in X.columns]
 
+        if self.X_.shape[1] != X.shape[1]:
+            raise ValueError(f'The number of features in X is differs from the number of '\
+                             f'features in fit. Fit was called with {self.X_.shape[1]} features, '\
+                             f'but X has {X.shape[1]} features.')
+
         all_predictions = self._predict_all(X, self.get_tree(tree_idx, decision_view=False))
         final_prediction = self._get_final_prediction(all_predictions)
         return np.array([self._y_map_rev[el] for el in final_prediction])
