@@ -1,6 +1,5 @@
 ---
 layout: default
-theme: just-the-docs
 title: "fasttrees docs"
 ---
 # Examples
