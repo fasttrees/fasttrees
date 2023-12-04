@@ -5,6 +5,7 @@ from __future__ import annotations
 import operator
 import logging
 import itertools
+import warnings
 from typing import Callable, Tuple
 
 import numpy as np
@@ -619,6 +620,9 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
             words : str.
                 A string describing the tree in words.
         """
+        warnings.warn(f'{self.in_words} is not thoroughly tested. Use the function with '\
+                      f'suspicion.')
+
         words = ''
 
         for row in self.get_tree(idx=idx, decision_view=True).itertuples(index=False):
