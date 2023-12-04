@@ -3,14 +3,14 @@ safe: true
 incremental: false
 highlighter: rouge
 
-title: Just the Docs Template
-description: A starter template for a Jeykll site using the Just the Docs theme!
-remote_theme: just-the-docs
+title: fasttrees
+description: A fast-and-frugal-tree classifier based on Python's scikit learn
+theme: just-the-docs
 
-url: https://just-the-docs.github.io
+url: https://fasttrees.github.io/fasttrees/
 
 aux_links:
-  Template Repository: https://github.com/just-the-docs/just-the-docs-template
+  Template Repository: https://fasttrees.github.io/fasttrees/
 
 gist:
   noscript: false
