@@ -9,6 +9,7 @@ name: Deploy Jekyll site to Pages
 on:
   push:
     branches: ["main"]
+    paths: ["docs/**"] # only changes in the docs directory triger the workflow
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
