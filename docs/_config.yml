@@ -8,8 +8,10 @@ theme: just-the-docs
 
 url: https://fasttrees.github.io/fasttrees/
 
+# Aux links for the upper right navigation
 aux_links:
-  Template Repository: https://fasttrees.github.io/fasttrees/
+  fasttrees Repository: https://fasttrees.github.io/fasttrees/
+
 
 gist:
   noscript: false
