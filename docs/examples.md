@@ -58,7 +58,7 @@ data['A15'] = data['A15'].apply(lambda x: True if x=='+' else False).astype(bool
 
 Your data should now look something like this:
 
-```
+```python
 	A0 	A1 	A2 	A3 	A4 	A5 	A6 	A7 	A8 	A9 	A10 	A11 	A12 	A13 	A14 	A15
 0 	b 	30.83 	0 	u 	g 	w 	v 	1.25 	t 	t 	1 	f 	g 	202 	0 	True
 1 	a 	58.67 	4.46 	u 	g 	q 	h 	3.04 	t 	t 	6 	f 	g 	43 	560 	True
