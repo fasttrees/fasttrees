@@ -15,7 +15,7 @@ heading_anchors: true
 
 # Aux links for the upper right navigation
 aux_links:
-  fasttrees Repository: https://fasttrees.github.io/fasttrees/
+  fasttrees Repository: https://github.com/fasttrees/fasttrees
 
 lsi: false
 safe: true
