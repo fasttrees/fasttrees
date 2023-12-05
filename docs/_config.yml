@@ -7,6 +7,7 @@ title: fasttrees
 description: A fast-and-frugal-tree classifier based on Python's scikit learn
 theme: just-the-docs
 url: https://fasttrees.github.io/fasttrees/
+baseurl: "" # the subpath of your site
 
 
 # Enable or disable heading anchors
