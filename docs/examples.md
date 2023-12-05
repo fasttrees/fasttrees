@@ -1,6 +1,6 @@
 ---
 layout: default
-title: "fasttrees docs"
+title: "Examples"
 ---
 # Examples
 
