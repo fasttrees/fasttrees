@@ -21,3 +21,6 @@ kramdown:
 
 plugins:
   - jekyll-default-layout
+  - jekyll-seo-tag
+  - jekyll-github-metadata
+  - jekyll-include-cache
