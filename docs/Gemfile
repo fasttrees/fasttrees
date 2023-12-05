@@ -9,4 +9,4 @@ gem "just-the-docs", "0.7.0" # pinned to the current release
 gem 'jekyll-default-layout'
 gem 'jekyll-seo-tag'
 gem 'jekyll-github-metadata'
-gem 'jekyll-include-cache'
+gem 'jekyll-include-cache', group: :jekyll_plugins
