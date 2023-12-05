@@ -8,6 +8,9 @@ theme: just-the-docs
 
 url: https://fasttrees.github.io/fasttrees/
 
+# Enable or disable heading anchors
+heading_anchors: true
+
 # Aux links for the upper right navigation
 aux_links:
   fasttrees Repository: https://fasttrees.github.io/fasttrees/
