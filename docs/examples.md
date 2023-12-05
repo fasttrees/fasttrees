@@ -1,8 +1,9 @@
 ---
 layout: default
-title: "Examples"
+title: "Introduction by Examples"
 ---
-# Examples
+# Introduction by Examples
+We introduce ``fasttrees`` through self-contained examples.
 
 
 ## Credict approval data set
