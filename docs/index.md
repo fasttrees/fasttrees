@@ -10,6 +10,18 @@ permalink: /
 `fasttrees` is a Python implementation of fast-and-frugal trees, which are a specialisation of decistion trees for binary-classification.
 {: .fs-6 .fw-300 }
 
+[Install fasttrees](#install-fasttrees){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
+[View fasttrees on GitHub][fasttrees repo]{: .btn .fs-5 .mb-4 .mb-md-0 }
+
+
+# Install fasttrees
+
+You can easily install `fasttrees` via `pip`.
+
+```bash
+pip install fasttrees
+```
+
 
 # About the project
 
