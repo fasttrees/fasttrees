@@ -15,6 +15,7 @@ permalink: /
 
 `fasttrees` is &copy; 2019-{{ "now" | date: "%Y" }} by [Dominic Zijlstra](https://www.linkedin.com/in/dominiczijlstra/) and [Stefan Bachhofner](https://www.linkedin.com/in/stefan-bachhofner-b729031b0/).
 
+The implementation is inspired and based on on the `R` package [FFTrees](https://cran.r-project.org/web/packages/FFTrees/index.html), developed by Phillips, Neth, Woike and Grassmaier.
 
 ## License
 
