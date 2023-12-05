@@ -23,7 +23,7 @@ setup(
     name='fasttrees',
     version=fasttrees.__version__,
     packages=['fasttrees'],
-    url='https://github.com/dominiczy/fasttrees',
+    url='https://github.com/fasttrees/fasttrees',
     license='MIT License',
     author=fasttrees.__author__,
     author_email=fasttrees.__author_email__,
@@ -45,9 +45,9 @@ setup(
         'Programming Language :: Python :: 3.8'
     ],
     project_urls={
-        'Documentation': 'https://github.com/dominiczy/fasttrees/blob/master/README.md',
-        'Source': 'https://github.com/dominiczy/fasttrees',
-        'Tracker': 'https://github.com/dominiczy/fasttrees/issues',
+        'Documentation': 'https://fasttrees.github.io/fasttrees',
+        'Source': 'https://github.com/fasttrees/fasttrees',
+        'Tracker': 'https://github.com/fasttrees/fasttrees/issues',
     },
     python_requires='>=3.8',
     install_requires=[
