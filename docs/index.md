@@ -13,7 +13,7 @@ permalink: /
 
 # About the project
 
-`fasttrees` is &copy; 2019-{{ "now" | date: "Y%"}} by [Dominic Zijlstra](https://www.linkedin.com/in/dominiczijlstra/) and [Stefan Bachhofner](https://www.linkedin.com/in/stefan-bachhofner-b729031b0/).
+`fasttrees` is &copy; 2019-{{ "now" | date: "%Y" }} by [Dominic Zijlstra](https://www.linkedin.com/in/dominiczijlstra/) and [Stefan Bachhofner](https://www.linkedin.com/in/stefan-bachhofner-b729031b0/).
 
 
 ## License
