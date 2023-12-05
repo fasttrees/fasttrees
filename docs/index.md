@@ -11,7 +11,8 @@ permalink: /
 {: .fs-6 .fw-300 }
 
 [Install fasttrees](#install-fasttrees){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 }
-[View fasttrees on GitHub][fasttrees repo]{: .btn .fs-5 .mb-4 .mb-md-0 }
+[View fasttrees on GitHub](https://github.com/fasttrees/fasttrees){: .btn .fs-5 .mb-4 .mb-md-0 }
+[Open an Issue on GitHub](https://github.com/fasttrees/fasttrees/issues){: .btn .fs-5 .mb-4 .mb-md-0 }
 
 
 # Install fasttrees
