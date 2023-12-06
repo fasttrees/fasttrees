@@ -9,7 +9,7 @@ We introduce ``fasttrees`` through self-contained examples.
 # Credit approval data set
 Let's walk through an example of using the Fast-and-Frugal Tree classifier to predict whether we should approve a request for a credit card.
 The data set is from the [Credit Approval](https://archive.ics.uci.edu/dataset/27/credit+approval) hosteb by the [UCI Machine Learning Repository](https://archive.ics.uci.edu/).
-Each row in the feature matrix $X$ hence represents historical attributes we collected within the credict card approval process, and the information whether the request was approved or denied.
+Each row in the feature matrix `X` hence represents historical attributes we collected within the credict card approval process, and the information whether the request was approved or denied.
 We have 15 features and 1 target for 690 credit card request.
 The data types of the features are either categorical, integer, or real.
 
@@ -55,13 +55,24 @@ Your feature matrix `X` and your target `y` should now look similar to the follo
 ```python
 X.head()
 ```
-|    |   A15 |   A14 | A13   | A12   |   A11 | A10   | A9   |   A8 | A7   | A6   | A5   | A4   |    A3 |    A2 | A1   |\n|---:|------:|------:|:------|:------|------:|:------|:-----|-----:|:-----|:-----|:-----|:-----|------:|------:|:-----|\n|  0 |     0 |   202 | g     | f     |     1 | t     | t    | 1.25 | v    | w    | g    | u    | 0     | 30.83 | b    |\n|  1 |   560 |    43 | g     | f     |     6 | t     | t    | 3.04 | h    | q    | g    | u    | 4.46  | 58.67 | a    |\n|  2 |   824 |   280 | g     | f     |     0 | f     | t    | 1.5  | h    | q    | g    | u    | 0.5   | 24.5  | a    |\n|  3 |     3 |   100 | g     | t     |     5 | t     | t    | 3.75 | v    | w    | g    | u    | 1.54  | 27.83 | b    |\n|  4 |     0 |   120 | s     | f     |     0 | f     | t    | 1.71 | v    | w    | g    | u    | 5.625 | 20.17 | b    |
+|    |   A15 |   A14 | A13   | A12   |   A11 | A10   | A9   |   A8 | A7   | A6   | A5   | A4   |    A3 |    A2 | A1   |
+|---:|------:|------:|:------|:------|------:|:------|:-----|-----:|:-----|:-----|:-----|:-----|------:|------:|:-----|
+|  0 |     0 |   202 | g     | f     |     1 | t     | t    | 1.25 | v    | w    | g    | u    | 0     | 30.83 | b    |
+|  1 |   560 |    43 | g     | f     |     6 | t     | t    | 3.04 | h    | q    | g    | u    | 4.46  | 58.67 | a    |
+|  2 |   824 |   280 | g     | f     |     0 | f     | t    | 1.5  | h    | q    | g    | u    | 0.5   | 24.5  | a    |
+|  3 |     3 |   100 | g     | t     |     5 | t     | t    | 3.75 | v    | w    | g    | u    | 1.54  | 27.83 | b    |
+|  4 |     0 |   120 | s     | f     |     0 | f     | t    | 1.71 | v    | w    | g    | u    | 5.625 | 20.17 | b    |
 
 ```python
 y.head()
 ```
-|    | A16   |\n|---:|:------|\n|  0 | +     |\n|  1 | +     |\n|  2 | +     |\n|  3 | +     |\n|  4 | +     |
-
+| | A16 |
+|-:|:--|
+| 0 | + |
+| 1 | + |
+| 2 | + |
+| 3 | + |
+| 4 | + |
 
 After preprosssing our data set, we can now split the data set into a training and test set.
 ```python
