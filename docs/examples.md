@@ -6,91 +6,80 @@ title: "Introduction by Examples"
 We introduce ``fasttrees`` through self-contained examples.
 
 
-## Credict approval data set
-Let's walk through an example of using the Fast-and-Frugal Tree classifier.
+# Credit approval data set
+Let's walk through an example of using the Fast-and-Frugal Tree classifier to predict whether we should approve a request for a credit card.
+The data set is from the [Credit Approval](https://archive.ics.uci.edu/dataset/27/credit+approval) hosteb by the [UCI Machine Learning Repository](https://archive.ics.uci.edu/).
+Each row in the feature matrix $X$ hence represents historical attributes we collected within the credict card approval process, and the information whether the request was approved or denied.
+We have 15 features and 1 target for 690 credit card request.
+The data types of the features are either categorical, integer, or real.
+
+
 First, we import the Fast-and-Frugal Tree classifier.
 
 ```python
-from fasttrees.fasttrees import FastFrugalTreeClassifier
+from fasttrees import FastFrugalTreeClassifier
 ```
 
 Now let’s get some data to fit our classifier to. Fast-and-Frugal Trees tend to do well on real-world data prone to (human) error, as they disregard information that doesn’t seem very predictive of the outcome. A typical use case is in an operational setting where humans quickly have to take decisions. You could then fit a fast-and-frugal tree to the data in advance, and use the simple resulting tree to quickly make decisions.
 
-As an example of this, let’s have a look at credit decisions. UCI provides a credit approval dataset. Download the crx.data file from the data folder.
-
-Let’s load the data as CSV to a Pandas dataframe:
+Let’s load the data as CSV to a Pandas dataframe, using the `ucimlrepo` package.
 
 ```python
-import pandas as pd
-data = pd.read_csv('crx.data', header=None)
+# code taken from https://archive.ics.uci.edu/dataset/27/credit+approval
+from ucimlrepo import fetch_ucirepo 
+  
+# fetch dataset 
+credit_approval = fetch_ucirepo(id=27) 
+  
+# data (as pandas dataframes) 
+X = credit_approval.data.features 
+y = credit_approval.data.targets 
 ```
-
-As there is no header, the columns are simply numbered 1, 2, 3 etc. Let’s make clear they’re attributes by naming them A1, A2, A3 etc.
 
 ```python
-data.columns = ['A{}'.format(nr) for nr in data.columns]
+# metadata 
+print(credit_approval.metadata) 
+  
+# variable information 
+print(credit_approval.variables) 
 ```
 
-The fasttrees implementation of fast-and-frugal trees can only work with categorical and numerical columns, so let’s assign the appropriate dtype to each column:
+`X` is the feature matrix, and `y` the target we want to predict, in other words the credit decision. This credict decision is denoted by a `+` for approved and a `-` for declined. For our classifier to work, we need to convert this to a boolean.
 
 ```python
-import numpy as np
-
-cat_columns = ['A0', 'A3', 'A4', 'A5', 'A6', 'A8', 'A9', 'A11', 'A12']
-nr_columns = ['A1', 'A2', 'A7', 'A10', 'A13', 'A14']
-
-for col in cat_columns:
-    data[col] = data[col].astype('category')
-
-for col in nr_columns:
-    # only recast columns that have not been correctly inferred
-    if data[col].dtype != 'float' and data[col].dtype != 'int':
-        # change the '?' placeholder to a nan
-        data.loc[data[col] == '?', col] = np.nan
-        data[col] = data[col].astype('float')
+y.A16 = y.A16.apply(lambda x: True if x=='+' else False).astype(bool)
 ```
 
-The last column is the variable we want to predict, the credit decision. It’s denoted by + or -. For our FastFrugalTreeClassifier to work we need to convert this to boolean:
+
+Your feature matrix `X` and your target `y` should now look similar to the following.
+```python
+X.head()
+```
+|    |   A15 |   A14 | A13   | A12   |   A11 | A10   | A9   |   A8 | A7   | A6   | A5   | A4   |    A3 |    A2 | A1   |\n|---:|------:|------:|:------|:------|------:|:------|:-----|-----:|:-----|:-----|:-----|:-----|------:|------:|:-----|\n|  0 |     0 |   202 | g     | f     |     1 | t     | t    | 1.25 | v    | w    | g    | u    | 0     | 30.83 | b    |\n|  1 |   560 |    43 | g     | f     |     6 | t     | t    | 3.04 | h    | q    | g    | u    | 4.46  | 58.67 | a    |\n|  2 |   824 |   280 | g     | f     |     0 | f     | t    | 1.5  | h    | q    | g    | u    | 0.5   | 24.5  | a    |\n|  3 |     3 |   100 | g     | t     |     5 | t     | t    | 3.75 | v    | w    | g    | u    | 1.54  | 27.83 | b    |\n|  4 |     0 |   120 | s     | f     |     0 | f     | t    | 1.71 | v    | w    | g    | u    | 5.625 | 20.17 | b    |
 
 ```python
-data['A15'] = data['A15'].apply(lambda x: True if x=='+' else False).astype(bool)
+y.head()
 ```
+|    | A16   |\n|---:|:------|\n|  0 | +     |\n|  1 | +     |\n|  2 | +     |\n|  3 | +     |\n|  4 | +     |
 
-Your data should now look something like this:
 
-```python
-	A0 	A1 	A2 	A3 	A4 	A5 	A6 	A7 	A8 	A9 	A10 	A11 	A12 	A13 	A14 	A15
-0 	b 	30.83 	0 	u 	g 	w 	v 	1.25 	t 	t 	1 	f 	g 	202 	0 	True
-1 	a 	58.67 	4.46 	u 	g 	q 	h 	3.04 	t 	t 	6 	f 	g 	43 	560 	True
-2 	a 	24.5 	0.5 	u 	g 	q 	h 	1.5 	t 	f 	0 	f 	g 	280 	824 	True
-3 	b 	27.83 	1.54 	u 	g 	w 	v 	3.75 	t 	t 	5 	t 	g 	100 	3 	True
-4 	b 	20.17 	5.625 	u 	g 	w 	v 	1.71 	t 	f 	0 	f 	s 	120 	0 	True
-```
-
-Now let’s do a train test split (we use two thirds of the data to train on):
-
+After preprosssing our data set, we can now split the data set into a training and test set.
 ```python
 from sklearn.model_selection import train_test_split
 
-X_train, X_test, y_train, y_test = train_test_split(data.drop(columns='A15'), data['A15'], test_size=0.33, random_state=0)
-
-We can now finally instantiate our fast-and-frugal tree classifier. Let’s use the default parameters:
-
-fc = FastFrugalTreeClassifier()
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=0)
 ```
 
-Let’s fit the classifier to our training data (this can take a few seconds):
-
+Finally, we can instantiate our fast-and-frugal tree classifier and fit it. The fit can take a few seconds.
 ```python
+fc = FastFrugalTreeClassifier()
 fc.fit(X_train, y_train)
 ```
 
-We can take a look at the resulting tree, which can be used for decision making:
-
+We can take a look at the resulting tree, which can be used for decision making.
 ```python
 fc.get_tree()
 ```
-
 ```
 	IF NO 	feature 	direction 	threshold 	IF YES
 0 	decide NO 	A8 	in 	(‘t’,) 	↓
