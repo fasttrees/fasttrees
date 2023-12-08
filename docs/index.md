@@ -37,11 +37,12 @@ from fasttrees import FastFrugalTreeClassifier
 fc = FastFrugalTreeClassifier()
 # Fit on your data
 fc.fit(X_train, y_train)
-# View the fitted tree (this is especially useful if the 'predictions' will be carried out by humans in practice)
+# View the fitted tree (this is especially useful if the predictions
+#  will be carried out by humans in practice)
 fc.get_tree()
 # Predict
 preds = fc.predict(X_test)
-Score
+# Score
 fc.score(X_test, y_test)
 ```
 
