@@ -23,6 +23,10 @@ You can easily install `fasttrees` via `pip`.
 pip install fasttrees
 ```
 
+# When to use fast-and-frugal trees
+
+Fast-and-Frugal Trees tend to do well on real-world data prone to (human) error, as they disregard information that doesn’t seem very predictive of the outcome. A typical use case is in an operational setting where humans quickly have to take decisions. You could then fit a fast-and-frugal tree to the data in advance, and use the simple resulting tree to quickly make decisions.
+
 
 # About the project
 
