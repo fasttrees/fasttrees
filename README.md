@@ -46,29 +46,3 @@ fftc = FastFrugalTreeClassifier()
 fftc.fit(X_train_iris, y_train_iris)
 fftc.score(X_test_iris, y_test_iris)
 ```
-
-## Usage
-Instantiate a fast-and-frugal tree classifier:
-```python
-fc = FastFrugalTreeClassifier()
-```
-
-Fit on your data:
-```python
-fc.fit(X_train, y_train)
-```
-
-View the fitted tree (this is especially useful if the 'predictions' will be carried out by humans in practice):
-```python
-fc.get_tree()
-```
-
-Predict:
-```python
-preds = fc.predict(X_test)
-```
-
-Score:
-```python
-fc.score(X_test, y_test)
-```

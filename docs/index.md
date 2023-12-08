@@ -27,6 +27,23 @@ pip install fasttrees
 
 Fast-and-Frugal Trees tend to do well on real-world data prone to (human) error, as they disregard information that doesn’t seem very predictive of the outcome. A typical use case is in an operational setting where humans quickly have to take decisions. You could then fit a fast-and-frugal tree to the data in advance, and use the simple resulting tree to quickly make decisions.
 
+# Usage
+
+```python
+from fasttrees import FastFrugalTreeClassifier
+
+
+# Instantiate a fast-and-frugal tree classifier
+fc = FastFrugalTreeClassifier()
+# Fit on your data
+fc.fit(X_train, y_train)
+# View the fitted tree (this is especially useful if the 'predictions' will be carried out by humans in practice)
+fc.get_tree()
+# Predict
+preds = fc.predict(X_test)
+Score
+fc.score(X_test, y_test)
+```
 
 # About the project
 
