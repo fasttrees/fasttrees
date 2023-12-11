@@ -8,7 +8,7 @@ We introduce ``fasttrees`` through self-contained examples.
 
 # Credit approval data set
 Let's walk through an example of using the Fast-and-Frugal Tree classifier to predict whether we should approve a request for a credit card.
-The data set is from the [Credit Approval](https://archive.ics.uci.edu/dataset/27/credit+approval) hosteb by the [UCI Machine Learning Repository](https://archive.ics.uci.edu/).
+The data set is from the [Credit Approval](https://archive.ics.uci.edu/dataset/27/credit+approval) hosted by the [UCI Machine Learning Repository](https://archive.ics.uci.edu/).
 Each row in the feature matrix `X` hence represents historical attributes we collected within the credict card approval process, and the information whether the request was approved or denied.
 We have 15 features and 1 target for 690 credit card request.
 The data types of the features are either categorical, integer, or real.
