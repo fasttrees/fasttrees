@@ -14,14 +14,12 @@ We have 15 features and 1 target for 690 credit card request.
 The data types of the features are either categorical, integer, or real.
 
 
-First, we import the Fast-and-Frugal Tree classifier.
-
-```python
-from fasttrees import FastFrugalTreeClassifier
-```
-
+**Data loading**
 Let’s load the data as CSV to a Pandas dataframe, using the `ucimlrepo` package.
-
+Using this package has many benefits.
+One of these benefits is that the data is annotated.
+Each data set object has the three attributes `data`, `metadata`, and `variables`.
+This greatly simplifies our workflow as we can type ``dataset.data.features`` to retrieve the feature matrix, and ``dataset.data.targets`` to retrieve the target vector as pandas data frames.
 ```python
 # code taken from https://archive.ics.uci.edu/dataset/27/credit+approval
 from ucimlrepo import fetch_ucirepo 
@@ -34,6 +32,8 @@ X = credit_approval.data.features
 y = credit_approval.data.targets 
 ```
 
+**Exploratory data analysis**
+Since we use `ucimlrepo` to retrieve the data set, we can easily take a look a the associated `metadata` and `variables` to gather first information on our data set.
 ```python
 # metadata 
 print(credit_approval.metadata) 
@@ -42,6 +42,7 @@ print(credit_approval.metadata)
 print(credit_approval.variables) 
 ```
 
+**Data preprocessing**
 `X` is the feature matrix, and `y` the target we want to predict, in other words the credit decision. This credict decision is denoted by a `+` for approved and a `-` for declined. For our classifier to work, we need to convert this to a boolean.
 
 ```python
@@ -80,8 +81,15 @@ from sklearn.model_selection import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=0)
 ```
 
-Finally, we can instantiate our fast-and-frugal tree classifier and fit it. The fit can take a few seconds.
+
+**Model training**
+Finally, we can train our model.
+We first import the Fast-and-Frugal Tree classifier.
+We can then instantiate our fast-and-frugal tree classifier and fit it.
+The fit can take a few seconds.
 ```python
+from fasttrees import FastFrugalTreeClassifier
+
 fc = FastFrugalTreeClassifier()
 fc.fit(X_train, y_train)
 ```
