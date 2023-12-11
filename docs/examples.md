@@ -56,6 +56,7 @@ Your feature matrix `X` and your target `y` should now look similar to the follo
 ```python
 X.head()
 ```
+
 |    |   A15 |   A14 | A13   | A12   |   A11 | A10   | A9   |   A8 | A7   | A6   | A5   | A4   |    A3 |    A2 | A1   |
 |---:|------:|------:|:------|:------|------:|:------|:-----|-----:|:-----|:-----|:-----|:-----|------:|------:|:-----|
 |  0 |     0 |   202 | g     | f     |     1 | t     | t    | 1.25 | v    | w    | g    | u    | 0     | 30.83 | b    |
@@ -67,6 +68,7 @@ X.head()
 ```python
 y.head()
 ```
+
 | | A16 |
 |-:|:--|
 | 0 | + |
