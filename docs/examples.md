@@ -53,12 +53,24 @@ Your feature matrix `X` and your target `y` should now look similar to the follo
 ```python
 X.head()
 ```
-<table border="1" class="dataframe">\n  <thead>\n    <tr style="text-align: right;">\n      <th></th>\n      <th>A15</th>\n      <th>A14</th>\n      <th>A13</th>\n      <th>A12</th>\n      <th>A11</th>\n      <th>A10</th>\n      <th>A9</th>\n      <th>A8</th>\n      <th>A7</th>\n      <th>A6</th>\n      <th>A5</th>\n      <th>A4</th>\n      <th>A3</th>\n      <th>A2</th>\n      <th>A1</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <th>0</th>\n      <td>0</td>\n      <td>202.0</td>\n      <td>g</td>\n      <td>f</td>\n      <td>1</td>\n      <td>t</td>\n      <td>t</td>\n      <td>1.25</td>\n      <td>v</td>\n      <td>w</td>\n      <td>g</td>\n      <td>u</td>\n      <td>0.000</td>\n      <td>30.83</td>\n      <td>b</td>\n    </tr>\n    <tr>\n      <th>1</th>\n      <td>560</td>\n      <td>43.0</td>\n      <td>g</td>\n      <td>f</td>\n      <td>6</td>\n      <td>t</td>\n      <td>t</td>\n      <td>3.04</td>\n      <td>h</td>\n      <td>q</td>\n      <td>g</td>\n      <td>u</td>\n      <td>4.460</td>\n      <td>58.67</td>\n      <td>a</td>\n    </tr>\n    <tr>\n      <th>2</th>\n      <td>824</td>\n      <td>280.0</td>\n      <td>g</td>\n      <td>f</td>\n      <td>0</td>\n      <td>f</td>\n      <td>t</td>\n      <td>1.50</td>\n      <td>h</td>\n      <td>q</td>\n      <td>g</td>\n      <td>u</td>\n      <td>0.500</td>\n      <td>24.50</td>\n      <td>a</td>\n    </tr>\n    <tr>\n      <th>3</th>\n      <td>3</td>\n      <td>100.0</td>\n      <td>g</td>\n      <td>t</td>\n      <td>5</td>\n      <td>t</td>\n      <td>t</td>\n      <td>3.75</td>\n      <td>v</td>\n      <td>w</td>\n      <td>g</td>\n      <td>u</td>\n      <td>1.540</td>\n      <td>27.83</td>\n      <td>b</td>\n    </tr>\n    <tr>\n      <th>4</th>\n      <td>0</td>\n      <td>120.0</td>\n      <td>s</td>\n      <td>f</td>\n      <td>0</td>\n      <td>f</td>\n      <td>t</td>\n      <td>1.71</td>\n      <td>v</td>\n      <td>w</td>\n      <td>g</td>\n      <td>u</td>\n      <td>5.625</td>\n      <td>20.17</td>\n      <td>b</td>\n    </tr>\n  </tbody>\n</table>
+|    |   A15 |   A14 | A13   | A12   |   A11 | A10   | A9   |   A8 | A7   | A6   | A5   | A4   |    A3 |    A2 | A1   |
+|---:|------:|------:|:------|:------|------:|:------|:-----|-----:|:-----|:-----|:-----|:-----|------:|------:|:-----|
+|  0 |     0 |   202 | g     | f     |     1 | t     | t    | 1.25 | v    | w    | g    | u    | 0     | 30.83 | b    |
+|  1 |   560 |    43 | g     | f     |     6 | t     | t    | 3.04 | h    | q    | g    | u    | 4.46  | 58.67 | a    |
+|  2 |   824 |   280 | g     | f     |     0 | f     | t    | 1.5  | h    | q    | g    | u    | 0.5   | 24.5  | a    |
+|  3 |     3 |   100 | g     | t     |     5 | t     | t    | 3.75 | v    | w    | g    | u    | 1.54  | 27.83 | b    |
+|  4 |     0 |   120 | s     | f     |     0 | f     | t    | 1.71 | v    | w    | g    | u    | 5.625 | 20.17 | b    |
 
 ```python
 y.head()
 ```
-<table border="1" class="dataframe">\n  <thead>\n    <tr style="text-align: right;">\n      <th></th>\n      <th>A16</th>\n    </tr>\n  </thead>\n  <tbody>\n    <tr>\n      <th>0</th>\n      <td>+</td>\n    </tr>\n    <tr>\n      <th>1</th>\n      <td>+</td>\n    </tr>\n    <tr>\n      <th>2</th>\n      <td>+</td>\n    </tr>\n    <tr>\n      <th>3</th>\n      <td>+</td>\n    </tr>\n    <tr>\n      <th>4</th>\n      <td>+</td>\n    </tr>\n  </tbody>\n</table>
+| | A16 |
+|-:|:--|
+| 0 | + |
+| 1 | + |
+| 2 | + |
+| 3 | + |
+| 4 | + |
 
 
 After preprosssing our data set, we can now split the data set into a training and test set.
