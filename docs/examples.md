@@ -43,7 +43,9 @@ print(credit_approval.variables)
 ```
 
 **Data preprocessing**
-`X` is the feature matrix, and `y` the target we want to predict, in other words the credit decision. This credict decision is denoted by a `+` for approved and a `-` for declined. For our classifier to work, we need to convert this to a boolean.
+`X` is the feature matrix, and `y` the target we want to predict, in other words the credit decision.
+This credict decision is denoted by a `+` for approved and a `-` for declined. 
+For our classifier to work, we need to convert this to a boolean.
 
 ```python
 y.A16 = y.A16.apply(lambda x: True if x=='+' else False).astype(bool)
@@ -106,7 +108,9 @@ fc.get_tree()
 3 	decide NO 	A7 	> 	1.25 	decide YES
 ```
 
-Now somebody making a decision can simply look at the 3 central columns, which read, for example A8 in ('t',) and have a look whether this is the case. If it isn’t, they take the action in IF NO, which would be to decide NO (in this case that would mean not to grant this specific person a credit). If it is, they take the action in IF YES, which is to look at the next feature, for which they then repeat the process.
+Now somebody making a decision can simply look at the 3 central columns, which read, for example A8 in ('t',) and have a look whether this is the case. 
+If it isn’t, they take the action in IF NO, which would be to decide NO (in this case that would mean not to grant this specific person a credit). 
+If it is, they take the action in IF YES, which is to look at the next feature, for which they then repeat the process.
 
 How well does this simple tree classifier perform? Let’s score it against the test data. By default the balanced accuracy score is used:
 
