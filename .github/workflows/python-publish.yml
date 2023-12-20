@@ -34,8 +34,8 @@ jobs:
 
     - name: Install dependencies
       run: |
-        python3 -m pip install --upgrade pip
-        pip install build
+        python3 -m pip install --upgrade build # pip
+        # pip install build
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
     - name: Build package
