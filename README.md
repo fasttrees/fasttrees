@@ -25,7 +25,7 @@ Below we provide a qick first start example with fast-and-frugal trees. We use t
 ```python
 from sklearn import datasets, model_selection
 
-from fasttrees.fasttrees import FastFrugalTreeClassifier
+from fasttrees import FastFrugalTreeClassifier
 
 
 # Load data set
