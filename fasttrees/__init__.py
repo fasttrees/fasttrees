@@ -8,7 +8,7 @@ __author__ = "Dominic Zijlstra, Stefan Bachhofner"
 
 __license__ = "MIT"
 __version__ = "1.3.0"
-__author_email__ = "dominiczijlstra@gmail.com, bachhofner.dev@gmail.com"
+__author_email__ = "bachhofner.dev@gmail.com"
 
 
 
