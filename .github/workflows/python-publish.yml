@@ -30,16 +30,14 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v3
       with:
-        python-version: '3.8.0'
+        python-version: '3.12.0'
 
     - name: Install dependencies
       run: |
-        python3 -m pip install --upgrade build # pip
-        # pip install build
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        python -m pip install --upgrade build
 
     - name: Build package
-      run: python3 -m build
+      run: python -m build
 
     - name: Publish package
       uses: pypa/gh-action-pypi-publish@27b31702a0e7fc50959f5ad993c78deac1bdfc29
