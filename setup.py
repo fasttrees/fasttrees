@@ -3,7 +3,6 @@
 from setuptools import setup
 
 
-import fasttrees
 
 
 def get_long_description():
@@ -21,13 +20,9 @@ def get_long_description():
 
 setup(
     name='fasttrees',
-    version=fasttrees.__version__,
     packages=['fasttrees'],
     url='https://github.com/fasttrees/fasttrees',
     license='MIT License',
-    author=fasttrees.__author__,
-    author_email=fasttrees.__author_email__,
-    description=fasttrees.__description__,
     long_description=get_long_description(),
     long_description_content_type='text/markdown',
     classifiers=[
