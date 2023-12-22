@@ -53,7 +53,7 @@ setup(
     install_requires=[
                 'numpy<=1.19.5',
                 'pandas<=0.25.3',
-                'sklearn<=0.23.2',
+                'scikit-learn<=0.23.2',
                 'logging'
           ]
 )
