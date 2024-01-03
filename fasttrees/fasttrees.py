@@ -638,3 +638,26 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
                          f'{row[0]}, otherwise, {row[4]}\n'
 
         return words
+
+    def get_best_tree(self, decision_view: bool=True):
+        """Get the best tree from all trees.
+
+        Retrieves the best tree, which is especially useful if the predictions
+        will be carried out by humans, or communication purposes, e.g. presentations.
+
+        This is a wrapper function for ```get_tree``` and is included because most users are interested in
+        the best tree.
+
+        Parameters
+        ----------
+            decision_view : bool, default=True
+                If true, it will return a dataframe in an easily readable form, which can then
+                be used to make a quick decision. If false, it will return the original dataframe
+                with more statistics. The default is ``True``.
+
+        Returns
+        ----------
+            tree_df : pandas.DataFrame
+                The dataframe of the best tree.
+        """
+        return self.get_tree(idx=None, decision_view=decision_view)
