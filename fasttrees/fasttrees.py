@@ -557,7 +557,7 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
             X.columns = [f'A{id}' for id in X.columns]
 
         if self.X_.shape[1] != X.shape[1]:
-            raise ValueError(f'The number of features in X is differs from the number of '\
+            raise ValueError(f'The number of features in X differs from the number of '\
                              f'features in fit. Fit was called with {self.X_.shape[1]} features, '\
                              f'but X has {X.shape[1]} features.')
 
