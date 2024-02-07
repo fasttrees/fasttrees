@@ -89,8 +89,7 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         }
 
     def _score(self, y: pd.DataFrame, predictions: pd.DataFrame, sample_weight=None) -> float:
-        """
-        Return the score on the given ``y`` and ``predictions``.
+        """Return the score on the given ``y`` and ``predictions``.
 
         Parameters
         ----------
@@ -111,8 +110,7 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         return self.scorer(y, predictions, sample_weight=sample_weight)
 
     def _get_thresholds(self, X: pd.DataFrame, y: pd.DataFrame) -> pd.DataFrame:
-        """
-        Get possible thresholds and directions for each feature.
+        """Get possible thresholds and directions for each feature.
 
         Parameters
         ----------
@@ -187,8 +185,7 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         self.all_thresholds_ = threshold_df
 
     def _get_best_thresholds(self):
-        """
-        Get thresholds and directions that maximimize scorer for each feature.
+        """Get thresholds and directions that maximimize scorer for each feature.
 
         Returns
         ----------
@@ -212,8 +209,7 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         )
 
     def _predict_all(self, X: pd.DataFrame, cue_df: pd.DataFrame) -> pd.Series:
-        """
-        Make predictions for ``X`` given ``cue_df``.
+        """Make predictions for ``X`` given ``cue_df``.
 
         Parameters
         ----------
@@ -239,8 +235,7 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         # could be replaced with logical expression which would not have to be applied row-wise?
         # currently very slow
         def prediction_func(row):
-            """
-            Makes a prediction for the given feature row.
+            """Makes a prediction for the given feature row.
 
             Look up the row's features in order of their score. Exit if the threshold is met and
             the tree exits on True, or if the threshold is not met and the tree exits on False.
@@ -275,8 +270,7 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
 
     @staticmethod
     def _get_final_prediction(all_predictions: pd.DataFrame) -> pd.DataFrame:
-        """
-        Get final (latest non-null) predictions from all cue predictions.
+        """Get final (latest non-null) predictions from all cue predictions.
 
         Parameters
         ----------
@@ -295,8 +289,7 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
             X: pd.DataFrame,
             cue_df: pd.DataFrame
         ) -> Tuple:
-        """
-        Make predictions and prune features that classify less than ``self.stopping_param``.
+        """Make predictions and prune features that classify less than ``self.stopping_param``.
 
         Parameters
         ----------
@@ -330,8 +323,7 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         return predictions, nr_cues_used, fraction_used
 
     def _growtrees(self, X: pd.DataFrame, y: pd.DataFrame) -> pd.DataFrame:
-        """
-        Grow all possible trees up to ``self.max_levels``. Levels that classify less than 
+        """Grow all possible trees up to ``self.max_levels``. Levels that classify less than 
         ``self.stopping_param`` are pruned.
 
         Parameters
@@ -430,8 +422,7 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         return tree_df
 
     def fit(self, X: pd.DataFrame, y: pd.DataFrame) -> FastFrugalTreeClassifier:
-        """
-        Builds the fast and frugal tree classifier from the training set (X, y).
+        """Builds the fast and frugal tree classifier from the training set (X, y).
 
         Parameters
         ----------
@@ -534,8 +525,7 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
                              f'{self._construction_algorithms}')
 
     def predict(self, X: pd.DataFrame, tree_idx: int=None) -> pd.DataFrame:
-        """
-        Predict class value for ``X``.
+        """Predict class value for ``X``.
 
         Returns the predicted class for each sample in ``X``.
 
@@ -576,8 +566,7 @@ class FastFrugalTreeClassifier(BaseEstimator, ClassifierMixin):
         return np.array([self._y_map_rev[el] for el in final_prediction])
 
     def score(self, X: pd.DataFrame, y: pd.DataFrame=None, sample_weight=None) -> float:
-        """
-        Predicts for data X. Scores predictions against y.
+        """Predicts for data X. Scores predictions against y.
 
         Parameters
         ----------
