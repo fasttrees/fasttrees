@@ -1,14 +1,18 @@
 '''
 The :mod:`fasttrees` module includes the fast-and-frugal tree classifier.
 '''
+from importlib import metadata
 
 
-__description__ = "A fast and frugal tree classifier for sklearn"
-__author__ = "Dominic Zijlstra, Stefan Bachhofner"
+fasttrees_metadata = dict(metadata.metadata('fasttrees'))
 
-__license__ = "MIT"
-__version__ = "1.3.1"
-__author_email__ = "dominiczijlstra@gmail.com, bachhofner.dev@gmail.com"
+__version__ = fasttrees_metadata['Version']
+__description__ = fasttrees_metadata['Summary']
+__license__ = fasttrees_metadata['License']
+
+__author__ = fasttrees_metadata['Author']
+__author_email__ = fasttrees_metadata['Author-email']
+
 
 
 
