@@ -1,10 +1,10 @@
 '''
 The :mod:`fasttrees` module includes the fast-and-frugal tree classifier.
 '''
-from importlib import metadata
+from importlib.metadata import distribution
 
 
-fasttrees_metadata = dict(metadata.metadata('fasttrees'))
+fasttrees_metadata = dict(distribution('fasttrees').metadata)
 
 __version__ = fasttrees_metadata['Version']
 __description__ = fasttrees_metadata['Summary']
