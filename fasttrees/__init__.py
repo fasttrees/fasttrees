@@ -1,14 +1,11 @@
 '''
 The :mod:`fasttrees` module includes the fast-and-frugal tree classifier.
 '''
+from pbr.version import VersionInfo
 
 
-__description__ = "A fast and frugal tree classifier for sklearn"
-__author__ = "Dominic Zijlstra, Stefan Bachhofner"
+__version__ = VersionInfo('fasttrees').release_string()
 
-__license__ = "MIT"
-__version__ = "1.3.1"
-__author_email__ = "dominiczijlstra@gmail.com, bachhofner.dev@gmail.com"
 
 
 
