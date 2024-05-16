@@ -1,3 +1,9 @@
+<!---
+SPDX-FileCopyrightText: 2019-2024 Dominic Zijlstra <dominiczijlstra@gmail.com>, Stefan Bachhofner <bachhofner.dev@gmail.com>
+
+SPDX-License-Identifier: MIT
+--->
+
 # fasttrees
 | __Packages and Releases__ | ![PyPI - Version](https://img.shields.io/pypi/v/fasttrees)  |
 | :--- | :--- |
