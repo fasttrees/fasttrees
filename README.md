@@ -9,7 +9,8 @@ SPDX-License-Identifier: MIT
 | :--- | :--- |
 | __Build Status__ | [![Upload Python Package to TestPyPI](https://github.com/fasttrees/fasttrees/actions/workflows/python-publish-testpypi.yml/badge.svg)](https://github.com/fasttrees/fasttrees/actions/workflows/python-publish-testpypi.yml) [![Upload Python Package to PyPI](https://github.com/fasttrees/fasttrees/actions/workflows/python-publish.yml/badge.svg)](https://github.com/fasttrees/fasttrees/actions/workflows/python-publish.yml) [![Python package](https://github.com/fasttrees/fasttrees/actions/workflows/python-package.yml/badge.svg)](https://github.com/fasttrees/fasttrees/actions/workflows/python-package.yml) ![pyling: workflow](https://github.com/fasttrees/fasttrees/actions/workflows/pylint.yml/badge.svg) |
 | __Test Coverage__ | [![codecov](https://codecov.io/github/fasttrees/fasttrees/graph/badge.svg?token=XCJQ3NXKVT)](https://codecov.io/github/fasttrees/fasttrees) |
-| __Other Information__ | [![Downloads](https://static.pepy.tech/badge/fasttrees)](https://pepy.tech/project/fasttrees) ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/fasttrees) [![linting: pylint](https://img.shields.io/badge/linting-pylint-yellowgreen)](https://github.com/pylint-dev/pylint) |
+| __Other Information__ | [![Downloads](https://static.pepy.tech/badge/fasttrees)](https://pepy.tech/project/fasttrees) ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/fasttrees) [![linting: pylint](https://img.shields.io/badge/linting-pylint-yellowgreen)](https://github.com/pylint-dev/pylint) [![REUSE status](https://api.reuse.software/badge/github.com/fasttrees/fasttrees)](https://api.reuse.software/info/github.com/fasttrees/fasttrees)
+ |
 
 
 A fast-and-frugal-tree classifier based on Python's scikit learn.
