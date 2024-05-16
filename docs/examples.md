@@ -6,6 +6,7 @@ SPDX-License-Identifier: MIT
 ---
 layout: default
 title: "Introduction by Examples"
+nav_order: 2
 ---
 # Introduction by Examples
 We introduce ``fasttrees`` through self-contained examples.

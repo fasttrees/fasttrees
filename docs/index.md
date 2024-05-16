@@ -5,7 +5,7 @@ SPDX-License-Identifier: MIT
 --->
 ---
 layout: default
-title: "Home | fasttrees"
+title: "Home"
 nav_order: 1
 description: fasttrees is a Python implementation of fast-and-frugal trees, which are a specialisation of decistion trees for binary-classification.
 permalink: /
