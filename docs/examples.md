@@ -1,3 +1,8 @@
+<!---
+SPDX-FileCopyrightText: Stefan Bachhofner <bachhofner.dev@gmail.com>
+
+SPDX-License-Identifier: CC-BY-4.0
+--->
 ---
 layout: default
 title: "Introduction by Examples"

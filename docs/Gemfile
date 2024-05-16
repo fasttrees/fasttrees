@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: Stefan Bachhofner <bachhofner.dev@gmail.com>
+#
+# SPDX-License-Identifier: MIT
+
 source 'https://rubygems.org'
 
 

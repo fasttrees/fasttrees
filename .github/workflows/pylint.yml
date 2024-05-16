@@ -1,3 +1,8 @@
+# SPDX-FileCopyrightText: Stefan Bachhofner <bachhofner.dev@gmail.com>
+#
+# SPDX-License-Identifier: MIT
+
+
 name: Pylint
 
 on: [push]
