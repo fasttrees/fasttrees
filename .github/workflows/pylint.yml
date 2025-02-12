@@ -11,7 +11,7 @@ jobs:
   build:
     # ubuntu-latest doesn't have all the needed Python version. Hence we need to specify Ubuntu 20.04.
     # See issue https://github.com/razorpay/razorpay-python/pull/265
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     continue-on-error: true
     strategy:
       matrix:
