@@ -52,3 +52,18 @@ jobs:
       uses: codecov/codecov-action@v5.3.1
       env:
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+
+  build:
+    runs-on: ubuntu-24.04
+    
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.8.18"]
+
+    needs: unit-tests
+
+    steps:
+      - name: Build package
+        run: python -m build
