@@ -65,5 +65,9 @@ jobs:
     needs: unit-tests
 
     steps:
+      - name: Install dependencies
+        run: |
+            python -m pip install --upgrade build
+
       - name: Build package
         run: python -m build
