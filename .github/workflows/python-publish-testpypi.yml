@@ -11,7 +11,7 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: Upload dev-release to TestPyPI
+name: Build and Upload to TestPyPI
 
 on:
   # Allows you to run this workflow manually from the Actions tab
