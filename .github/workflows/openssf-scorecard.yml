@@ -12,11 +12,11 @@ on:
   push:
     # Only the default branch is supported.
     branches:
-      - main
+      - master
 
   pull_request:
     branches:
-      - main
+      - master
       
   schedule:
     # Weekly on Saturdays at 1:30AM.
