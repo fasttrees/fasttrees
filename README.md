@@ -49,3 +49,17 @@ fftc = FastFrugalTreeClassifier()
 fftc.fit(X_train_iris, y_train_iris)
 fftc.score(X_test_iris, y_test_iris)
 ```
+
+## Licensing
+Copyright (c) 2019-2024 Dominic Zijlstra, Stefan Bachhofner
+
+Licensed under the **MIT (SPDX short identifier: MIT)** (the "License"); you may not use this file except in compliance with the License.
+
+You may obtain a copy of the License by reviewing the file [LICENSE](./LICENSES/MIT.txt) in the repository.
+
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the [LICENSE](./LICENSES/Apache-2.0.txt) for the specific language governing permissions and limitations under the License.
+
+This project follows the [REUSE standard for software licensing](https://reuse.software).
+Each file contains copyright and license information, and license texts can be found in the [LICENSES](./LICENSES) folder.
+For more information visit https://reuse.software.
