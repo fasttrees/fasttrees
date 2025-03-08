@@ -59,7 +59,6 @@ You may obtain a copy of the License by reviewing the file [LICENSE](./LICENSES/
 
 Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the [LICENSE](./LICENSES/Apache-2.0.txt) for the specific language governing permissions and limitations under the License.
-```
 
 This project follows the [REUSE standard for software licensing](https://reuse.software).
 Each file contains copyright and license information, and license texts can be found in the [LICENSES](./LICENSES) folder.
