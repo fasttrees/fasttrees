@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2019-2024 Stefan Bachhofner <bachhofner.dev@gmail.com>
+#
+# SPDX-License-Identifier: MIT
+
 [build-system]
 requires = ["pbr>=6.1.1"]
 build-backend = "pbr.build"
