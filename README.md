@@ -48,6 +48,7 @@ X_train_iris, X_test_iris, y_train_iris, y_test_iris = model_selection.train_tes
 fftc = FastFrugalTreeClassifier()
 fftc.fit(X_train_iris, y_train_iris)
 fftc.score(X_test_iris, y_test_iris)
+```
 
 ## Licensing
 Copyright (c) 2019-2024 Dominic Zijlstra, Stefan Bachhofner
