@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: MIT
 
-numpy<=1.19.5
+numpy>=1.22.0
 pandas<=0.25.3
 scikit-learn<=0.23.2
 pytest<=7.4.0
